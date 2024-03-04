@@ -62,6 +62,8 @@ wp-content/mu-plugins/wpe-wp-sign-on-plugin*
 /wp-admin
 /wp-includes
 /wp-content/index.php
+/wp-content/plugins/updraftplus/includes/Dropbox2/OAuth/Consumer/Curl.php
+/wp-content/plugins/updraftplus/includes/S3.php
 /wp-content/themes/twentyten
 /wp-content/themes/twentyeleven
 /wp-content/themes/twentytwelve
