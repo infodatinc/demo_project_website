@@ -2241,10 +2241,10 @@ final class UpdraftPlus_S3Request
 				$this->response->headers['size'] = (int)$value;
 			elseif (strtolower($header) == 'content-type')
 				$this->response->headers['type'] = $value;
-			elseif (strtolower($header) == 'etag')
-				$this->response->headers['hash'] = $value{0} == '"' ? substr($value, 1, -1) : $value;
-			elseif (preg_match('/^x-amz-meta-.*$/i', $header))
-				$this->response->headers[strtolower($header)] = $value;
+			// elseif (strtolower($header) == 'etag')
+			// 	$this->response->headers['hash'] = $value{0} == '"' ? substr($value, 1, -1) : $value;
+			// elseif (preg_match('/^x-amz-meta-.*$/i', $header))
+			// 	$this->response->headers[strtolower($header)] = $value;
 		}
 		return $strlen;
 	}
