@@ -19,3 +19,4 @@ jobs:
           REMOTE_PATH: "wp-content/"
           PHP_LINT: TRUE
           CACHE_CLEAR: TRUE
+# Testing
