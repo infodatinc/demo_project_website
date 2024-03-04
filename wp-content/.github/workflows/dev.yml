@@ -1,0 +1,21 @@
+name: Deploy to Dev
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: GitHub Action Deploy to WP Engine
+        uses: wpengine/github-action-wpe-site-deploy@v3
+        with:
+          ARGS: "nvm install v20.11.1"
+          # Deploy vars
+          WPE_SSHG_KEY_PRIVATE: ${{secrets.WP_SSHG_KEY_PRIVATE}}
+          WPE_ENV: infodatdev
+          # Deploy Options
+          REMOTE_PATH: "wp-content/"
+          PHP_LINT: TRUE
+          CACHE_CLEAR: TRUE
