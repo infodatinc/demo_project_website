@@ -1,80 +1,111 @@
-=== Imagify – Image Optimization & Convert WebP ===
-Contributors: wp_media
-Tags: convert webp, webp, optimize images, optimize, images
-Requires at least: 4.0.0
-Tested up to: 5.4.2
-Stable tag: 1.9.10
+=== Imagify – Optimize Images & Convert WebP & AVIF | Compress Images Easily ===
+Contributors: wp_rocket, imagify
+Tags: optimize images, convert webp, webp converter, convert AVIF, webp to AVIF, AVIF plugin, AVIF converter, image optimization, compress images, image compressor, resize images, reduce image size, performance, image optimizer, core web vitals, best image optimization plugin
+Tested up to: 6.4
+Stable tag: 2.2
+License: GPLv2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Optimize images in one click: reduce image file sizes, convert WebP, keep your images beautiful… and boost your loading time and your SEO!
+Compress images & convert WebP and AVIF with the best WordPress image optimization plugin. Optimize images in 1-click & resize images with our image optimizer!
 
 == Description ==
 
-Speed up your website with our image optimizer and get lighter images without losing quality.
+= The Best Image Optimization Plugin For WordPress =
 
-Imagify is the most advanced tool to optimize images. You can now use this power directly in WordPress.
-After enabling it, all your images including thumbnails will be automatically optimized when uploaded into WordPress. You can also use Imagify to convert WebP images for free.
+[Imagify](https://imagify.io/) is the most advanced image optimization plugin to help you resize and compress images. You can now use its power directly in WordPress to optimise images and reduce the weight of the photos you want to add to your site – all in just one click and without sacrificing their quality. 
 
-WooCommerce and NextGen Gallery compatible.
+Imagify is the best WordPress image optimizer. The plugin lets you optimize images in one go with its asynchronous bulk optimization option. You can resize your images on the fly – they will be automatically optimized at the best compression level. If needed, you can always restore your images to their original versions.
 
-= What is Image Compression? =
+On top of optimizing images, you’ll choose the best WebP plugin and AVIF plugin for WordPress. Imagify also converts your images to WebP and AVIF, the next-gen formats for lighter images that will speed up your WordPress site, improve user experience, and even SEO. Convert WebP and convert AVIF will make a difference in image optimization, you’ll see that from yourself.
 
-Learn more about image compression, check that: [https://imagify.io/images-compression](https://imagify.io/images-compression).
+Lastly, it’s easy to use the best image compression plugin for better site performance. Speed up your WordPress site and improve Core Web Vitals thanks to Imagify’s state-of-the-art image optimization process.
 
-= Why use Imagify to optimize your images? =
+Our video explains why Imagify is the easiest image optimization plugin and shows how it makes your website faster thanks to lighter images.
 
-You already have lots of unoptimized images? Not a problem, you will love the Bulk Optimizer to optimize all your existing images in one click.
+[youtube https://www.youtube.com/watch?v=ZgMwWvUZFu4&feature=youtu.be]
 
-Imagify can directly resize your images, **you won't have to lose time anymore on resizing your images before uploading them**.
 
-Three level of compression are available:
+= Resize and Compress Images Without Losing Quality =
 
-- Normal, a lossless compression algorithm. The image quality won't be altered at all.
-- Aggressive, a lossy compression algorithm. Stronger compression with a tiny loss of quality most of the time this is not even noticeable at all.
-- Ultra, our strongest compression method using a lossy algorithm.
+Imagify is a great image compressor and the ultimate solution to optimise images. You are able to resize and compress images from the most common image formats as well as PDF format. In case you have many images to optimize, you can also resize images in bulk thanks to our async bulk optimization option. In just one click, you will be able to compress multiple images super easily. Imagify compresses all your images in the background, so you can leave the page and not worry about anything.
 
-With the backup option, you can change your mind whenever you want by restoring your images to their original version or optimize them to another compression level.
+Many of your high-quality images may be in sizes that are much too large. To reduce image size and compress large images, Imagify has a setting that allows you to choose a maximum width for all of your images, and if you upload images that are larger than that size, it will resize large images for you during optimization. Imagify will resize images proportionally without cropping them.
 
-= HOW ABOUT WEBP IMAGES? =
-Now, for each image you optimize with the Imagify plugin, you will also get its **WebP version** (if you tick the option in the settings); in your Media library, this will result in the following image versions:
-- full-sized optimized image,
-- full-sized WebP image,
-- optimized thumbnails,
-- WebP thumbnails.
+With such a great image optimizer like Imagify, you’ll get your images automatically optimized at the best compression level and quality – thanks to the Smart Compression Mode.
 
-The optimization will also work for images included in your themes and plugins.
+When using our image compression tool, Imagify, you will enjoy smaller file sizes and faster loading times. But the best part is that you will optimise images and reduce their weight without losing quality: why should you have to choose between beauty and speed? If you want to compress images, it’s now easier than ever with Imagify!
 
-If you want, Imagify can also display WebP images on your front-end in two ways:
-- `<picture>` tag,
-- rewrite rules in the .htaccess file.
+= Convert Images to the WebP and AVIF Formats  =
 
-If you kept a backup copy of the original images, you have the possibility to **create their WebP version separately** (one by one or via the bulk optimization).
+Thanks to Imagify, you can take a step further in your image optimization process. You can also convert all your images to next-gen image formats such as WebP and AVIF. WebP format, as well as the AVIF format, offers superior image compression and quality and is a way to optimise images and speed up their loading times on websites. To convert images to next-gen format, using the Imagify plugin will save you a precious amount of time. 
 
-= What our users think of Imagify? =
+With Imagify, WebP compression and conversion are indeed super easy. Wondering how the convert WebP option works? Imagify will automatically enable WebP and convert your images to WebP. You can also easily convert WebP images to AVIF.
+
+If the "Create Next-gen formats versions" option is enabled, the AVIF version of optimized images will be created automatically. Simple as that! Thanks to the best WebP and AVIF plugin for WordPress, you’ll be able to take advantage of the automatic convert WebP feature in no time, plus you’ll always have the convert AVIF option.
+
+Imagify can also display the AVIF images directly on your front-end. But because some browser versions don’t support AVIF yet, Imagify lets you have both optimized versions of the original format images and the WebP versions ready. Imagify will serve the AVIF version if a visitor's browser supports it and the WebP format if not (if you have previously converted the images to WebP).
+
+WebP is definitively an excellent replacement for jpeg, png, and gif images, and the same goes for AVIF, which improves your image performance even further. Imagify offers WebP conversion for all image formats: you can convert gif to webP, jpeg to WebP, and even png to WebP. You can also benefit from AVIF conversion and convert gif to AVIF, jpg and jpeg to AVIF, ng to AVIF, and even WebP to AVIF!
+Whatever your favorite image format, let Imagify optimise your images!
+
+= Optimise Images to Make Your Site Faster and Improve Core Web Vitals  =
+
+Did you know that image optimization and web performance go hand in hand? In fact, when it comes to web page speed, one of the first things you should do is optimize your images. Large and heavy image sizes will indeed slow down your website and provide a bad user experience to your visitors – and that’s why you should compress images. On the contrary, when you optimise images and improve image loading speed, you should see a direct improvement in your website speed and performance. With Imagify, it’s time to say goodbye to images taking too long to load.
+
+Images are one of the largest influencing factors in the Core Web Vitals. Image compression will ensure your images load faster and improve your overall website performance, including your Core Web Vitals metrics. If you’re looking to improve user experience and speed up your WordPress site, images are a good place to start.
+
+Even Google tells you to take care of your images! If you have ever run a performance audit on PageSpeed Insights, you might have seen the [“serve images in next-gen formats”](https://imagify.io/blog/serve-next-gen-formats-wordpress/) opportunity popping up. Another PageSpeed Insights recommendation related to images is to [“efficiently encode images”](https://imagify.io/blog/efficiently-encode-images-wordpress/). When you use Imagify, you will be able to address both recommendations and fix your images for a faster website.
+
+= What Do Our Users Think Of Imagify? =
+
+Here’s what our users have to say about us after optimizing their images with Imagify:
+
+>"Images and other media are the largest parts on your web pages (most likely). Therefore don't forget to optimise images for the web before adding to your site. For WordPress there are many optimisation plugins available. My favourite is Imagify" — [Mark Wilkinson](https://twitter.com/wpmark/status/1479128422395830273)
+>
+
+>”To give your images a slimming treatment, without altering them aesthetically, there is a great plugin on WordPress: Imagify. Simple, efficient and functional, it’s really worth a look.”— [WP Marmite](https://twitter.com/wpmarmite_en/status/1383072818649255937)
+>
 
 > "Imagify is an awesome tool that is powerful & easy to use. It's fast, rivals and surpasses other established plugins/software. Awesome!" — [Simon Harper](https://twitter.com/SRHDesign/status/663758140505235456)
 >
+
 > "If you want to "squeeze" your images as much as possible and "trim out" your website on the highest professional level... Imagify" — [Ivica Delic](https://twitter.com/Free_LanceTools/status/685503950909476865)
 >
+
 > "Clearly Imagify is the most awesome WordPress plugin to compress images on your website! A must try" — [Eric Walter](https://twitter.com/EricWaltR/status/679053496382038016)
 >
 
 = Is Imagify Free? =
 
-You can optimize for free 25MB of images (about 250 images) every month. Converting to WebP is free.
+You can optimize for free 20MB of images (that’s about 200 images) every month. You can also convert to the next-gen WebP format for free.
 
-Need more? Have a look at our plans: [https://imagify.io/pricing](https://imagify.io/pricing)
+Need to compress more images? Have a look at our plans: [https://imagify.io/pricing](https://imagify.io/pricing)
 
-= What's next? =
+= Want Image Optimization Tips? =
 
-Have a look at our upcoming features by following our development roadmap: [https://trello.com/b/3Q8ZnSN6/imagify-roadmap](https://trello.com/b/3Q8ZnSN6/imagify-roadmap)
+If you want to know more about using WebP images on WordPress, improving your PageSpeed score with Imagify, or compressing multiple images online, take a look at our blog: [https://imagify.io/blog/](https://imagify.io/blog/)
 
-= Who we are? =
+It’s packed with advice on image compression and so much more!
 
-We are [WP Media](https://wp-media.me/), the startup behind WP Rocket the best caching plugin for WordPress.
+*[How to Convert Images to WebP on WordPress with Imagify](https://imagify.io/blog/how-to-convert-images-to-webp/)
 
-Our mission is to improve the web, we are making it faster with [WP Rocket](https://wp-rocket.me/) we want to make it lighter with Imagify.
+*[How to Optimize Images on WordPress for Performance and SEO](https://imagify.io/blog/image-optimization-manual-for-wordpress/)
 
-= Get in touch! =
+*[How to Reduce Image Size Without Losing Quality (and Save Space)](https://imagify.io/blog/reduce-image-size-without-losing-quality/)
+
+*[How to Resize and Compress Multiple Images Online (Easy Methods)](https://imagify.io/blog/how-to-resize-compress-multiple-images-online/)
+
+*[How to Make Photos Load Faster on WordPress: 6 Key Tactics](https://imagify.io/blog/how-to-make-photos-load-faster-wordpress/)
+
+*[How to Optimize Images for Page Speed (and Google)](https://imagify.io/blog/optimize-images-page-speed-google/)
+
+= Who Are We? =
+
+We are [WP Media](https://wp-media.me/), the company behind WP Rocket, the best caching plugin for WordPress.
+
+Our mission is to improve the web, we are making it faster with [WP Rocket](https://wp-rocket.me/) and lighter with Imagify.
+
+= Get In Touch! =
 
 * Website: [Imagify.io](https://imagify.io)
 * Contact Us: [https://imagify.io/contact](https://imagify.io/contact)
@@ -82,7 +113,7 @@ Our mission is to improve the web, we are making it faster with [WP Rocket](http
 
 = Related Plugins =
 * [WP Rocket](https://wp-rocket.me/): Best caching plugin to speed-up your WordPress website.
-* [Rocket Lazy Load](https://wordpress.org/plugins/rocket-lazy-load/): Best Lazy Load script to reduce the number of HTTP requests and improves the websites loading time.
+* [Lazy Load](https://wordpress.org/plugins/rocket-lazy-load/): Best Lazy Load script to reduce the number of HTTP requests and improve the website's loading time.
 
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -102,45 +133,122 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 == Frequently Asked Questions ==
 
+= How can I measure the impact of Imagify on speed score? =
+
+You can use GTMetrix and Google PageSpeed Insights to check the relevant suggestions. It is recommended to test the following metrics before and after the image optimization:
+
+* Total Page Size (GTMetrix)
+* Optimize images (GTMetrix)
+* Serve images in next-gen formats (PageSpeed Insights)
+* Efficiently encode images (PageSpeed Insights)
+
+= What makes Imagify better than other image optimizer tools? =
+
+Imagify is an extremely powerful image optimizer: our advanced compressing algorithm will compress images, reduce their weight without sacrificing their quality.
+
+Imagify is also super easy to use. Thanks to its intuitive design, you can easily get familiar with the interface and services without thinking about it.
+
+And our dedicated customer support will help you fix any issue with your image optimizing process. Support is available via contact form, either on our website, or directly on your Imagify plugin settings page.
+
+= How many websites can I optimize with Imagify? =
+
+You can use Imagify on as many websites as you wish. Your image optimization quota to compress images will be shared evenly across all of the websites.
+
+If you need more control over how your Imagify subscription is used, you should create sub-accounts to allocate a quota for each.
+
+= How does the WebP feature work on non-supported browsers? =
+
+Imagify will deliver images in the original format for browsers that don’t support the next-gen WebP format automatically, so there is nothing further to be done.
+
+= Is Imagify compatible with NextGEN? =
+
+Yes, Imagify is fully compatible with NextGEN Gallery, the most popular photo gallery plugin for WordPress. All Imagify optimization features related to NextGEN Gallery images are located and usable within the NextGEN Gallery menus and pages. So when you add images to your NextGEN galleries, you’ll be able to optimize them as well.
+
 = Which formats can be optimized? =
 
-Imagify can optimize images such as jpg, png and gif (whether animated or not) formats and for each image you optimize you also get its WebP version if you tick the option in the settings (except for animated gif).
+Imagify can optimize JPG, PNG, WebP, PDF files and GIFs (whether animated or not).
 
-= Can I use the plugin with a free account? =
+When you optimize JPG, PNG, and GIF files, Imagify will also create WebP versions of your original images and all your thumbnail sizes (if you have this option enabled).
 
-Absolutely. You are limited to a quota of 25 MB of images per month with a free account. Once this quota is reached, you cannot optimize new images until your quota is renewed or you purchase credits.
+= How should I know which image compression level is best for me? =
 
-= On how many websites can I use the plugin? =
+Don’t worry! Imagify comes with the Smart Compression Mode. It means that your images will be automatically optimized for the best possible compression ratio and quality. There’s nothing else to do – just enjoy your lighter and faster images.
 
-You can use the plugin on as many sites as you wish. The only limit is the optimization quota of your account.
+=How does the optimization process work?=
 
-= I used Kraken, Shortpixel, Optimus, EWWW or WP Smush, will Imagify further optimize my images? =
+The image optimization process is performed on our servers. Once done, Imagify returns the optimized image to your server. We do not edit images’ titles or any other information, so there is nothing further to be done on your end than to compress images. Your original images will be moved to a dedicated backup folder (just make sure to keep the Backup option active in Imagify settings).
+
+=How long are images stored by Imagify?=
+
+Once your images have been optimized via the WP plugin, the compressed images stay on your end forever (even if you delete the Imagify account).
+
+During the optimization process, compressed images sent via the API or WordPress plugin are stored for one hour on our server (they are already sent back to your site and stay there safely).
+
+Using the online application, compressed images are stored for 24 hours (with a free account) and for unlimited time if you have a paid subscription.
+
+=Can I restore images after compression?=
+
+Yes, as long as the Backup option is active in Imagify settings (it is active by default when you activate the WP Plugin).
+
+=If I remove Imagify, will my images stay compressed?=
+
+Yes, your images will stay compressed even after removing Imagify (and even after you delete your Imagify account).
+
+=If I use Imagify, do I need to continue optimizing and resizing my images with Photoshop?=
+
+Do not waste your time resizing and optimizing your images in Photoshop. Imagify takes care of everything to compress your images!
+
+=Is the EXIF data of images removed?=
+
+EXIF data is not removed.
+
+=I used Kraken, Optimus, EWWW or WP Smush, will Imagify further optimize my images?=
 
 Absolutely. Most of the time, Imagify will still be able to optimize your images even if you have already compressed them with another tool.
 
-= What is the difference between the Normal, Aggressive and Ultra compression levels? =
-
-Normal compression is a "lossless" optimization. This means there is no loss of image quality. Aggressive and Ultra compression are more powerful, so the picture quality will be somewhat reduced. The weight of the image will be much less.
-
-= Is the EXIF data of images removed? =
-
-By default EXIF data is removed. It is however possible to keep it by enabling the option.
-
 = Will the original images be deleted? =
 
-No. Imagify automatically replaces the images with an optimized image. The backup option allows you to keep the original images and restore them with one click.
+No. Imagify automatically replaces the original images with an optimized image. The backup option allows you to keep the original images and restore them with one click.
 
 = Is it possible to re-optimize images with a different level? =
 
-Yes. By activating the backup option in the plugin, you can re-optimize each image with a different compression level.
-
-= If I use Imagify, do I need to continue optimizing and resizing my images with Photoshop? =
-
-Do not waste your time resizing and optimizing your images in Photoshop. Imagify takes care of everything!
+Yes. By activating the backup option in the plugin, you can re-optimize each image to lossless compression with a single click.
 
 = What happens when the plugin is disabled? =
 
 When the plugin is disabled, your existing images remain optimized. Backups of the original images are still available if you have enabled the images backup option.
+
+= On which web hosts can the plugin be used? =
+
+The plugin can be used on all hosts including "managed hosting" providers like WP Engine.
+
+= Is Imagify compatible with Multi-Site? =
+
+Yes, Imagify is 100% compatible with multi-site.
+
+= Can we use Imagify on WordPress.com? =
+
+It is possible to use the Imagify plugin on WordPress.com if you have a Business account.
+
+=Do you offer support?=
+
+Yes, the Imagify team offers full email support for image optimization questions. You can contact us via [https://imagify.io/contact/](https://imagify.io/contact/).
+
+= When is support available? =
+
+Our support is currently available Monday-Friday 8AM-10PM CET. We answer every email so you can expect the answer from us within 24h max (unless during the weekends).
+
+=Is registration free?=
+
+Yes, and no credit card is required.
+
+= Do you offer a trial version? =
+
+No. However, you get 20MB of quota per month for free to optimize your images (around 200 images).
+
+= Where do I report security bugs found in this plugin? =  
+  
+You can report any security bugs found in the source code of the site-reviews plugin through the [Patchstack Vulnerability Disclosure Program](https://patchstack.com/database/vdp/imagify). The Patchstack team will assist you with verification, CVE assignment and take care of notifying the developers of this plugin.
 
 == Screenshots ==
 
@@ -153,6 +261,79 @@ When the plugin is disabled, your existing images remain optimized. Backups of t
 4. Other Media Page
 
 == Changelog ==
+= 2.2 =
+- New Feature: Introduce AVIF generation feature
+
+= 2.1.3.1 = 
+- Bugfix: missing styling on some banners when using minified versions of the CSS files (#765)
+
+= 2.1.3 =
+- Enhancement: Update chart.js (#742)
+- Enhancement: Improve messaging around WebP images when they are larger than the original (#751)
+- Enhancement: Update notices when out of quota (#727, #728)
+- Bugfix: Prevent PHP deprecated notice on PHP 8.1 (#734)
+- Bugfix: Improve database queries on large media libraries (#747)
+
+= 2.1.2 =
+- Bugfix: Prevent deprecation notice with PHP 8.1 & 8.2 (#721, #723)
+- Bugfix: Escape error message before display (#729)
+- Bugfix: Don't count WebP images in the generate missing WebP images versions (#713)
+- Bugfix: Improve information related to out of quota on bulk optimization (#714)
+- Bugfix: Fix optimization filter type working with file filters on media library (#670)
+
+= 2.1.1 =
+- Enhancement: Allow WebP images to be optimized by Imagify from the plugin (#611)
+- Enhancement: Improve error message displayed when an unknown error occured (#637)
+- Enhancement: Update Action Scheduler to v3.5.4 (#708)
+- Enhancement: Only display plan suggestion for users on free plan (#69)
+- Bugfix: Prevent optimization from getting stuck on websites with big images libraries (#707)
+- Bugfix: Prevent PHP8 ArgumentCountError (#682)
+
+
+= 2.1 =
+- Enhancement: Re-add lossless compression option (#686)
+- Enhancement: New async bulk optimization, allowing to run the bulk optimization without keeping the browser open. Also possible to run the bulk optimization from an API function or a WP CLI command (#674)
+- Bugfix: Correctly resize the WebP generated file to the maximum defined size from the settings (#521)
+- Bugfix: Prevent error related to set_time_limit() function on some environments (#671)
+
+= 2.0 =
+- Enhancement: Add compatibility with our new smart compression system (#663)
+- Enhancement: Optimize initialization of some of the code (#473)
+- Enhancement: Add new filter `imagify_process_webp_content` (#653)
+- Bugfix: Prevent PHP warning when displaying the pricing modal (#666)
+- 3rd party compatibility: Pass missing parameter to the `http_headers_useragent` filter (#612)
+- 3rd party compatibility: Prevent conflict with WP Cloudflare super page cache (#609)
+- Bugfix: Fix various UI issues (#604, #586, #592, #594)
+- i18n: Fix typos & improve strings (#621)
+
+= 1.10 - 2021/07/15 =
+* The plugin minimum compatible versions are now PHP 7.0 and WordPress 5.3
+* Enhancement: Correctly display WordPress cover blocks when WebP and picture tag replacement is enabled (#546)
+* Enhancement: Update our jQuery code to be compatible with the new jQuery version included in WordPress (#545)
+* 3rd party compatibility: Correctly display WooCommerce variable products images when WebP and picture tag replacement is enabled (#495)
+* Bugfix: Prevent nested picture tags when picture tag replacement is enabled (#537)
+* Bugfix: Prevent a fatal error related to get_current_screen() in some cases (#567)
+* Bugfix: Fixes some display issues related to the promotions in the checkout process (#556, #557)
+* Bugfix: Fixes some display issues on the settings & bulk optimization pages on mobile (#566)
+* Bugfix: Prevent PHP warning in some cases on the bulk optimization process (#565)
+* Bugfix: Prevent PHP notice in somes cases for the $images_count variable (#573)
+
+= 1.9.14 =
+* Fix: cURL not connecting to Imagify API when using PHP 8.
+* Fix: Display issue in Chrome on scrollable check groups on Imagify admin page.
+
+= 1.9.13 =
+* Improvement: Update readme with new quotas, FAQ and description info.
+
+= 1.9.12 - 2020/11/09 =
+* Improvement: Enable plugin to work with new app pricing API.
+
+= 1.9.11 - 2020/09/09 =
+* Fix: Fix settings error on multi-sites with WordPress 5.5
+* Fix: Write the correct conf file for use with WebP rewrites on nginx
+* Improvement: Namespace composer dependencies to avoid possible naming collisions.
+* Security: Add blank index.php to imagify-created backup folders to disable public access.
+
 = 1.9.10 - 2020/05/26 =
 * Fix: Correctly optimize thumbnails during auto-optimization of image upload
 * Fix: Fix broken compatibility with Enable Media Replace plugin after WordPress 5.3
@@ -163,7 +344,7 @@ When the plugin is disabled, your existing images remain optimized. Backups of t
 * Fix: php notices that could happen when optimizing.
 
 = 1.9.8.1 - 2019/11/15 =
-* Fix: webp image not showing when using the `<picture>` method and the original `<img/>` does not have a `srcset` attribute.
+* Fix: WebP image not showing when using the `<picture>` method and the original `<img/>` does not have a `srcset` attribute.
 * Fix: a fatal error with WP Offload Media 2.3.
 
 = 1.9.8 - 2019/11/11 =
@@ -171,7 +352,7 @@ When the plugin is disabled, your existing images remain optimized. Backups of t
 * New: among other things, WordPress 5.3 automatically resizes large images on upload, using a predefined threshold value that can be changed only by filter (no setting fields are provided). Imagify’s "Resize larger images" setting field is now used to tweak this threshold.
 * Caution: to be able to work on WordPress 5.3, some adjustments have been made to our compatibility with Enable Media Replace and Regenerate Thumbnails. However, these plugins must be updated to work with WordPress 5.3: do not use them until then.
 * Improvement: moved the `width` and `height` attributes from the `<picture>` tag to the `<img>` tag to be valid HTML markup.
-* Fix: added a missing descriptor in `srcset` attribute when using `<picture>` tags to display webp images. This should also fix an issue with LasyLoad.
+* Fix: added a missing descriptor in `srcset` attribute when using `<picture>` tags to display WebP images. This should also fix an issue with LasyLoad.
 * Fix: fixed an issue with the user capacity used for "Other Media" menu item.
 * Fix: a php notice `stripos(): Non-string needles will be interpreted as strings in the future.`.
 
@@ -181,23 +362,23 @@ When the plugin is disabled, your existing images remain optimized. Backups of t
 * Fix: display the "Welcome" banner correctly when it is shown on the WP Rocket’s settings page.
 
 = 1.9.6 - 2019/07/22 =
-* Improvement: now images that are "already optimized" can also get webp versions.
+* Improvement: now images that are "already optimized" can also get WebP versions.
 * Fix: progress bar height in the admin bar for Chrome and Safari.
 
 = 1.9.5 - 2019/07/16 =
 * Improvement: Basic Authentication support. If it does not work automatically, you can still define the constants `IMAGIFY_AUTH_USER` and `IMAGIFY_AUTH_PASSWORD` in your `wp-config.php` file.
-* Improvement: webp images are not created for animated gif images by default anymore. Use the filter `imagify_pre_can_create_webp_version` if you still want to create an unanimated webp version of them.
-* Improvement: when creating webp images from the settings page, we made more clear when all the images are missing a backup copy.
+* Improvement: WebP images are not created for animated gif images by default anymore. Use the filter `imagify_pre_can_create_next_gen_version` if you still want to create an unanimated WebP version of them.
+* Improvement: when creating WebP images from the settings page, we made more clear when all the images are missing a backup copy.
 * Improvement: clear the 5 minutes data cache when buying quota from the plugin.
-* Improvement: when displaying webp images with the `<picture>` tag, allow to use relative URLs (starting with `/`).
+* Improvement: when displaying WebP images with the `<picture>` tag, allow to use relative URLs (starting with `/`).
 
 = 1.9.4 - 2019/07/10 =
-* Improvement: if a webp image is larger than its non-webp version, it is now possible to not keep it. This can be done by using the filter `imagify_keep_large_webp`.
+* Improvement: if a next-gen image is larger than its non-next-gen version, it is now possible to not keep it. This can be done by using the filter `imagify_keep_large_next_gen`.
 * Improvement: compatibility with Pressable.
 * Improvement: renamed a php class to prevent some hosts to wrongly flag it as "suspicious" and trigger a fatal error.
 * Improvement: better compatibility with WP Real Media Library plugin.
-* Fix: rewrite rules for webp could not work on some servers.
-* Fix: when using `<picture>` tags for webp, some attributes could disappear if they were written on multiple lines.
+* Fix: rewrite rules for WebP could not work on some servers.
+* Fix: when using `<picture>` tags for WebP, some attributes could disappear if they were written on multiple lines.
 * Fix: the bulk method would not work in the NextGen Gallery list.
 * Fix: php notice `Trying to get property "namespace" for a non object`.
 
@@ -205,7 +386,7 @@ When the plugin is disabled, your existing images remain optimized. Backups of t
 * Fix: conflict with plugins using an ancient version of Composer.
 
 = 1.9.3 - 2019/06/17 =
-* Improvement: better compatibility with CDNs when displaying webp images with `<picture>` tags. There is now a new setting field to fill in the CDN URL in use.
+* Improvement: better compatibility with CDNs when displaying WebP images with `<picture>` tags. There is now a new setting field to fill in the CDN URL in use.
 * Improvement: don’t use Heartbeat anymore. This speeds up the optimization process and prevents other plugins to break everything when they remove Heartbeat.
 * Fix: a fatal error upon plugin deactivation.
 * Fix: an occasional fatal error preventing the optimization process to work.
@@ -218,11 +399,11 @@ When the plugin is disabled, your existing images remain optimized. Backups of t
 * Fix: don’t display support bubble anymore.
 
 = 1.9.1 - 2019/05/09 =
-* Improvement: prevent "Generating missing webp versions" being stuck at 0% in the settings page by displaying a "done/total" label instead.
+* Improvement: prevent "Generating missing WebP versions" being stuck at 0% in the settings page by displaying a "done/total" label instead.
 * Improvement: improved our "re-registering" of the Heartbeat library, that some plugins may deactivate.
 
 = 1.9.0 - 2019/05/06 =
-* New: webp support. For each image or thumbnail, Imagify can create a webp version of it. But since creating these images without using them does not make really sense, Imagify can also display your webp images on your site. All of this can be enabled in the settings. For the images that are already optimized, you get the possibility to create the webp versions separately (one by one or in the settings page), but only if you kept a backup copy of the original images.
+* New: WebP support. For each image or thumbnail, Imagify can create a WebP version of it. But since creating these images without using them does not make really sense, Imagify can also display your WebP images on your site. All of this can be enabled in the settings. For the images that are already optimized, you get the possibility to create the WebP versions separately (one by one or in the settings page), but only if you kept a backup copy of the original images.
 * Improvement: the optimization process has been entirely rebuilt. This new process allows you to optimize as many thumbnail sizes that you want. It also implies that many classes, functions, and hooks have been deprecated.
 * Improvement: compatibility with Flywheel.
 * Improvement: some error messages are now more accurate.

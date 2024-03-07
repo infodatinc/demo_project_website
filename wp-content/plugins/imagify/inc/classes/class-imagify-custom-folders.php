@@ -89,6 +89,49 @@ class Imagify_Custom_Folders {
 		return preg_replace( '@^' . preg_quote( $site_root, '@' ) . '@', $backup_dir, $file_path );
 	}
 
+	/**
+	 * Add index.php files recursively to a given directory and all its subdirectories.
+	 *
+	 * @since 1.9.11
+	 *
+	 * @param string $backup_dir (optional) Path to the directory where we will start adding indexes.
+	 *                           Defaults to custom-folders backup dir.
+	 *
+	 * @return void
+	 */
+	public static function add_indexes( $backup_dir = '' ) {
+		$filesystem = Imagify_Filesystem::get_instance();
+
+		if ( empty( $backup_dir ) ) {
+			$backup_dir = self::get_backup_dir_path();
+		}
+
+		if ( ! $filesystem->is_writable( $backup_dir ) ) {
+			return;
+		}
+
+		try {
+			$directory = new RecursiveDirectoryIterator( $backup_dir );
+			$iterator  = new RecursiveIteratorIterator( $directory );
+
+			foreach ( $iterator as $fileinfo ) {
+
+				if ( '.' !== $fileinfo->getFilename() ) {
+					continue;
+				}
+
+				$path = trailingslashit( $fileinfo->getRealPath() );
+
+				if ( ! $filesystem->is_file( $path . 'index.html' )
+					&& ! $filesystem->is_file( $path . 'index.php' )
+				) {
+					$filesystem->touch( $path . 'index.php' );
+				}
+			}
+		} catch ( Exception $e ) {
+			return;
+		}
+	}
 
 	/** ----------------------------------------------------------------------------------------- */
 	/** SINGLE FILE ============================================================================= */
@@ -218,7 +261,7 @@ class Imagify_Custom_Folders {
 			$filesystem->delete( $args['backup_path'] );
 		}
 
-		// Webp.
+		// WebP.
 		$mime_type = $filesystem->get_mime_type( $args['file_path'] );
 		$is_image  = $mime_type && strpos( $mime_type, 'image/' ) === 0;
 		$webp_path = $is_image ? imagify_path_to_webp( $args['file_path'] ) : false;
@@ -278,7 +321,7 @@ class Imagify_Custom_Folders {
 			// Remove the corresponding folder if inactive and have no files left.
 			self::remove_empty_inactive_folders( $folder_id );
 
-			// Delete the webp version.
+			// Delete the WebP version.
 			if ( $has_webp ) {
 				$filesystem->delete( $webp_path );
 			}
@@ -339,7 +382,7 @@ class Imagify_Custom_Folders {
 					self::remove_empty_inactive_folders( $old_data['folder_id'] );
 				}
 
-				// Delete the webp version.
+				// Delete the WebP version.
 				if ( $has_webp ) {
 					$filesystem->delete( $webp_path );
 				}
@@ -359,7 +402,7 @@ class Imagify_Custom_Folders {
 			if ( $is_image ) {
 				$size = $filesystem->get_image_size( $file_path );
 
-				// Delete the webp version.
+				// Delete the WebP version.
 				if ( $has_webp ) {
 					$filesystem->delete( $webp_path );
 				}
@@ -402,7 +445,7 @@ class Imagify_Custom_Folders {
 				'original_size' => $filesystem->size( $path ),
 			] );
 
-			// Webp.
+			// WebP.
 			$webp_size = 'full' . $process::WEBP_SUFFIX;
 
 			if ( $has_webp && empty( $old_data['data'][ $webp_size ]['success'] ) ) {
@@ -801,7 +844,7 @@ class Imagify_Custom_Folders {
 			return array();
 		}
 
-		$files_from_db = call_user_func_array( 'array_merge', $files_from_db );
+		$files_from_db = call_user_func_array( 'array_merge', array_values( $files_from_db ) );
 
 		if ( $already_optimized ) {
 			// Put the files already optimized at the end of the list.

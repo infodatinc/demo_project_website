@@ -169,7 +169,7 @@ function imagify_get_filesystem() {
 }
 
 /**
- * Convert a path (or URL) to its webp version.
+ * Convert a path (or URL) to its WebP version.
  * To keep the function simple:
  * - Not tested if it's an image.
  * - File existance is not tested.
@@ -183,6 +183,32 @@ function imagify_get_filesystem() {
  */
 function imagify_path_to_webp( $path ) {
 	return $path . '.webp';
+}
+
+/**
+ * Convert a path (or URL) to its next-gen version.
+ * To keep the function simple:
+ * - Not tested if it's an image.
+ * - File existance is not tested.
+ * - If an URL is given, make sure it doesn't contain query args.
+ *
+ * @since  2.2
+ *
+ * @param  string $path A file path or URL.
+ * @param  string $format format we are targeting.
+ * @return string
+ */
+function imagify_path_to_nextgen( $path, string $format ) {
+	switch ( $format ) {
+		case 'webp':
+			$path = $path . '.webp';
+			break;
+		case 'avif':
+			$path = $path . '.avif';
+			break;
+	}
+
+	return $path;
 }
 
 /**
@@ -223,8 +249,8 @@ function imagify_can_optimize_custom_folders() {
  * @return string The URL.
  */
 function imagify_get_external_url( $target, $query_args = array() ) {
-	$site_url = 'https://imagify.io/';
-	$app_url  = 'https://app.imagify.io/#/';
+	$site_url = IMAGIFY_SITE_DOMAIN . '/';
+	$app_url  = IMAGIFY_APP_DOMAIN . '/#/';
 
 	switch ( $target ) {
 		case 'plugin':
@@ -244,11 +270,6 @@ function imagify_get_external_url( $target, $query_args = array() ) {
 		case 'share-facebook':
 			$url = rawurlencode( imagify_get_external_url( 'plugin' ) );
 			$url = 'https://www.facebook.com/sharer/sharer.php?u=' . $url;
-			break;
-
-		case 'exif':
-			/* translators: URL to a Wikipedia page explaining what EXIF means. */
-			$url = __( 'https://en.wikipedia.org/wiki/Exchangeable_image_file_format', 'imagify' );
 			break;
 
 		case 'contact':
@@ -370,10 +391,8 @@ function imagify_get_optimization_level_label( $level, $format = '%s' ) {
 
 		switch ( $level ) {
 			case 2:
-				$icon .= '<polygon points="11.6054688 11.6054688 8.7890625 11.6054688 8.7890625 0.39453125 11.6054688 0.39453125"/><polygon points="7.39453125 11.6054688 4.60546875 11.6054688 4.60546875 3.89453125 7.39453125 3.89453125"/><polygon points="3.2109375 11.6054688 0.39453125 11.6054688 0.39453125 6 3.2109375 6"/>';
-				break;
 			case 1:
-				$icon .= '<polygon fill="#CCD1D6" points="11.6054688 11.6054688 8.7890625 11.6054688 8.7890625 0.39453125 11.6054688 0.39453125"/><polygon points="7.39453125 11.6054688 4.60546875 11.6054688 4.60546875 3.89453125 7.39453125 3.89453125"/><polygon points="3.2109375 11.6054688 0.39453125 11.6054688 0.39453125 6 3.2109375 6"/>';
+				$icon .= '<polygon points="11.6054688 11.6054688 8.7890625 11.6054688 8.7890625 0.39453125 11.6054688 0.39453125"/><polygon points="7.39453125 11.6054688 4.60546875 11.6054688 4.60546875 3.89453125 7.39453125 3.89453125"/><polygon points="3.2109375 11.6054688 0.39453125 11.6054688 0.39453125 6 3.2109375 6"/>';
 				break;
 			case 0:
 				$icon .= '<polygon fill="#CCD1D6" points="11.6054688 11.6054688 8.7890625 11.6054688 8.7890625 0.39453125 11.6054688 0.39453125"/><polygon fill="#CCD1D6" points="7.39453125 11.6054688 4.60546875 11.6054688 4.60546875 3.89453125 7.39453125 3.89453125"/><polygon points="3.2109375 11.6054688 0.39453125 11.6054688 0.39453125 6 3.2109375 6"/>';
@@ -386,11 +405,10 @@ function imagify_get_optimization_level_label( $level, $format = '%s' ) {
 
 	switch ( $level ) {
 		case 2:
-			return sprintf( $format, __( 'Ultra', 'imagify' ) );
 		case 1:
-			return sprintf( $format, __( 'Aggressive', 'imagify' ) );
+			return sprintf( $format, __( 'Smart', 'imagify' ) );
 		case 0:
-			return sprintf( $format, __( 'Normal', 'imagify' ) );
+			return sprintf( $format, __( 'Lossless', 'imagify' ) );
 	}
 
 	return '';

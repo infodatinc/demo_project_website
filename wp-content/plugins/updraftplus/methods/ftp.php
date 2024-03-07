@@ -2,10 +2,10 @@
 
 if (!defined('UPDRAFTPLUS_DIR')) die('No direct access allowed.');
 
-# Converted to array options: yes
-# Converted to job_options: yes
+// Converted to array options: yes
+// Converted to job_options: yes
 
-# Migrate options to new-style storage - May 2014
+// Migrate options to new-style storage - May 2014
 if (!is_array(UpdraftPlus_Options::get_updraft_option('updraft_ftp')) && '' != UpdraftPlus_Options::get_updraft_option('updraft_server_address', '')) {
 	$opts = array(
 		'user' => UpdraftPlus_Options::get_updraft_option('updraft_ftp_login'),
@@ -21,16 +21,27 @@ if (!is_array(UpdraftPlus_Options::get_updraft_option('updraft_ftp')) && '' != U
 	UpdraftPlus_Options::delete_updraft_option('updraft_ftp_login');
 }
 
-if (!class_exists('UpdraftPlus_BackupModule')) require_once(UPDRAFTPLUS_DIR.'/methods/backup-module.php');
+if (!class_exists('UpdraftPlus_BackupModule')) updraft_try_include_file('methods/backup-module.php', 'require_once');
 
 class UpdraftPlus_BackupModule_ftp extends UpdraftPlus_BackupModule {
 
-	// Get FTP object with parameters set
+	/**
+	 * Get FTP object with parameters set
+	 *
+	 * @param  String  $server 			 Specify Server
+	 * @param  String  $user 			 Specify Username
+	 * @param  String  $pass 			 Specify Password
+	 * @param  Boolean $disable_ssl		 Indicate whether to disable SSL
+	 * @param  Boolean $disable_verify	 Indicate whether to disable verifiction
+	 * @param  Boolean $use_server_certs Indicate whether to use server certificates
+	 * @param  Boolean $passive 		 Indicate whether to use passive FTP mode
+	 * @return Array
+	 */
 	private function getFTP($server, $user, $pass, $disable_ssl = false, $disable_verify = true, $use_server_certs = false, $passive = true) {
 
-		if ('' == trim($server) || '' == trim($user) || '' == trim($pass)) return new WP_Error('no_settings', sprintf(__('No %s settings were found','updraftplus'), 'FTP'));
+		if ('' == trim($server) || '' == trim($user) || '' == trim($pass)) return new WP_Error('no_settings', sprintf(__('No %s settings were found', 'updraftplus'), 'FTP'));
 
-		if( !class_exists('UpdraftPlus_ftp_wrapper')) require_once(UPDRAFTPLUS_DIR.'/includes/ftp.class.php');
+		if (!class_exists('UpdraftPlus_ftp_wrapper')) updraft_try_include_file('includes/ftp.class.php', 'include_once');
 
 		$port = 21;
 		if (preg_match('/^(.*):(\d+)$/', $server, $matches)) {
@@ -49,9 +60,30 @@ class UpdraftPlus_BackupModule_ftp extends UpdraftPlus_BackupModule {
 
 	}
 	
+	/**
+	 * WordPress options filter, sanitising the FTP options saved from the options page
+	 *
+	 * @param Array $settings - the options, prior to sanitisation
+	 *
+	 * @return Array - the sanitised options for saving
+	 */
+	public function options_filter($settings) {
+		if (is_array($settings) && !empty($settings['version']) && !empty($settings['settings'])) {
+			foreach ($settings['settings'] as $instance_id => $instance_settings) {
+				if (!empty($instance_settings['host']) && preg_match('#ftp(es|s)?://(.*)#i', $instance_settings['host'], $matches)) {
+					$settings['settings'][$instance_id]['host'] = rtrim($matches[2], "/ \t\n\r\0x0B");
+				}
+				if (isset($instance_settings['pass'])) {
+					$settings['settings'][$instance_id]['pass'] = trim($instance_settings['pass'], "\n\r\0\x0B");
+				}
+			}
+		}
+		return $settings;
+	}
+	
 	public function get_supported_features() {
-		// This options format is handled via only accessing options via $this->get_options()
-		return array('multi_options');
+		// The 'multi_options' options format is handled via only accessing options via $this->get_options()
+		return array('multi_options', 'config_templates', 'multi_storage', 'conditional_logic');
 	}
 
 	public function get_default_options() {
@@ -60,8 +92,44 @@ class UpdraftPlus_BackupModule_ftp extends UpdraftPlus_BackupModule {
 			'user' => '',
 			'pass' => '',
 			'path' => '',
-			'passive' => true
+			'passive' => 1
 		);
+	}
+
+	/**
+	 * Retrieve a list of template properties by taking all the persistent variables and methods of the parent class and combining them with the ones that are unique to this module, also the necessary HTML element attributes and texts which are also unique only to this backup module
+	 * NOTE: Please sanitise all strings that are required to be shown as HTML content on the frontend side (i.e. wp_kses())
+	 *
+	 * @return Array an associative array keyed by names that describe themselves as they are
+	 */
+	public function get_template_properties() {
+		global $updraftplus;
+		$possible = $this->ftp_possible();
+		$ftp_not_possible = array();
+		if (is_array($possible)) {
+			$trans = array(
+				'ftp' => __('regular non-encrypted FTP', 'updraftplus'),
+				'ftpsslimplicit' => __('encrypted FTP (implicit encryption)', 'updraftplus'),
+				'ftpsslexplicit' => __('encrypted FTP (explicit encryption)', 'updraftplus')
+			);
+			foreach ($possible as $type => $missing) {
+				$ftp_not_possible[] = wp_kses('<strong>'.__('Warning', 'updraftplus').':</strong> '. sprintf(__("Your web server's PHP installation has these functions disabled: %s.", 'updraftplus'), implode(', ', $missing)).' '.sprintf(__('Your hosting company must enable these functions before %s can work.', 'updraftplus'), $trans[$type]), $this->allowed_html_for_content_sanitisation());
+			}
+		}
+		$properties = array(
+			'updraft_sftp_ftps_notice' => wp_kses(apply_filters('updraft_sftp_ftps_notice', '<strong>'.__('Only non-encrypted FTP is supported by regular UpdraftPlus.').'</strong> <a href="'.esc_url($updraftplus->get_url('premium')).'" target="_blank">'.__('If you want encryption (e.g. you are storing sensitive business data), then an add-on is available in the Premium version.', 'updraftplus')), $this->allowed_html_for_content_sanitisation()),
+			'ftp_not_possible_warnings' => $ftp_not_possible,
+			'input_host_label' => __('FTP server', 'updraftplus'),
+			'input_user_label' => __('FTP login', 'updraftplus'),
+			'input_password_label' => __('FTP password', 'updraftplus'),
+			'input_password_type' => apply_filters('updraftplus_admin_secret_field_type', 'password'),
+			'input_path_label' => __('Remote path', 'updraftplus'),
+			'input_path_title' => __('Needs to already exist', 'updraftplus'),
+			'input_passive_label' => __('Passive mode', 'updraftplus'),
+			'input_passive_title' => __('Almost all FTP servers will want passive mode; but if you need active mode, then uncheck this.', 'updraftplus'),
+			'input_test_label' => sprintf(__('Test %s Settings', 'updraftplus'), $updraftplus->backup_methods[$this->get_id()])
+		);
+		return wp_parse_args($properties, $this->get_persistent_variables_and_methods());
 	}
 	
 	public function backup($backup_array) {
@@ -84,36 +152,36 @@ class UpdraftPlus_BackupModule_ftp extends UpdraftPlus_BackupModule {
 			if (is_wp_error($ftp)) {
 				$updraftplus->log_wp_error($ftp);
 			} else {
-				$updraftplus->log("FTP Failure: we did not successfully log in with those credentials.");
+				$this->log("Failure: we did not successfully log in with those credentials.");
 			}
-			$updraftplus->log(sprintf(__("%s login failure",'updraftplus'), 'FTP'), 'error');
+			$this->log(__("login failure", 'updraftplus'), 'error');
 			return false;
 		}
 
-		//$ftp->make_dir(); we may need to recursively create dirs? TODO
+		// $ftp->make_dir(); we may need to recursively create dirs? TODO
 
 		$updraft_dir = $updraftplus->backups_dir_location().'/';
 
 		$ftp_remote_path = trailingslashit($opts['path']);
-		foreach($backup_array as $file) {
+		foreach ($backup_array as $file) {
 			$fullpath = $updraft_dir.$file;
-			$updraftplus->log("FTP upload attempt: $file -> ftp://".$opts['user']."@".$opts['host']."/${ftp_remote_path}${file}");
+			$this->log("upload attempt: $file -> ftp://".$opts['user']."@".$opts['host']."/{$ftp_remote_path}{$file}");
 			$timer_start = microtime(true);
-			$size_k = round(filesize($fullpath)/1024,1);
-			# Note :Setting $resume to true unnecessarily is not meant to be a problem. Only ever (Feb 2014) seen one weird FTP server where calling SIZE on a non-existent file did create a problem. So, this code just helps that case. (the check for non-empty upload_status[p] is being cautious.
+			$size_k = round(filesize($fullpath)/1024, 1);
+			// Note :Setting $resume to true unnecessarily is not meant to be a problem. Only ever (Feb 2014) seen one weird FTP server where calling SIZE on a non-existent file did create a problem. So, this code just helps that case. (the check for non-empty upload_status[p] is being cautious.
 			$upload_status = $updraftplus->jobdata_get('uploading_substatus');
-			if (0 == $updraftplus->current_resumption || (is_array($upload_status) && !empty($upload_status['p']) && $upload_status['p'] == 0)) {
+			if (0 == $updraftplus->current_resumption || (is_array($upload_status) && !empty($upload_status['p']) && 0 == $upload_status['p'])) {
 				$resume = false;
 			} else {
 				$resume = true;
 			}
 
 			if ($ftp->put($fullpath, $ftp_remote_path.$file, FTP_BINARY, $resume, $updraftplus)) {
-				$updraftplus->log("FTP upload attempt successful (".$size_k."KB in ".(round(microtime(true)-$timer_start,2)).'s)');
+				$this->log("upload attempt successful (".$size_k."KB in ".(round(microtime(true)-$timer_start, 2)).'s)');
 				$updraftplus->uploaded_file($file);
 			} else {
-				$updraftplus->log("ERROR: FTP upload failed" );
-				$updraftplus->log(sprintf(__("%s upload failed",'updraftplus'), 'FTP'), 'error');
+				$this->log("ERROR: FTP upload failed");
+				$this->log(__("upload failed", 'updraftplus'), 'error');
 			}
 		}
 
@@ -137,7 +205,7 @@ class UpdraftPlus_BackupModule_ftp extends UpdraftPlus_BackupModule {
 
 		if (is_wp_error($ftp)) return $ftp;
 
-		if (!$ftp->connect()) return new WP_Error('ftp_login_failed', sprintf(__("%s login failure",'updraftplus'), 'FTP'));
+		if (!$ftp->connect()) return new WP_Error('ftp_login_failed', sprintf(__("%s login failure", 'updraftplus'), 'FTP'));
 
 		$ftp_remote_path = $opts['path'];
 		if ($ftp_remote_path) $ftp_remote_path = trailingslashit($ftp_remote_path);
@@ -165,7 +233,7 @@ class UpdraftPlus_BackupModule_ftp extends UpdraftPlus_BackupModule {
 			unset($dirlist[$k]);
 		}
 
-		# ftp_nlist() doesn't return file sizes. rawlist() does, but is tricky to parse. So, we get the sizes manually.
+		// ftp_nlist() doesn't return file sizes. rawlist() does, but is tricky to parse. So, we get the sizes manually.
 		foreach ($results as $ind => $name) {
 			$size = $ftp->size($ftp_remote_path.$name['name']);
 			if (0 === $size) {
@@ -179,10 +247,18 @@ class UpdraftPlus_BackupModule_ftp extends UpdraftPlus_BackupModule {
 
 	}
 
-	public function delete($files, $ftparr = array(), $sizeinfo = array()) {
+	/**
+	 * Delete a single file from the service using FTP protocols
+	 *
+	 * @param Array $files    - array of file names to delete
+	 * @param Array $ftparr   - FTP details/credentials
+	 * @param Array $sizeinfo - unused here
+	 * @return Boolean|String - either a boolean true or an error code string
+	 */
+	public function delete($files, $ftparr = array(), $sizeinfo = array()) {// phpcs:ignore VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable -- $sizeinfo unused
 
 		global $updraftplus;
-		if (is_string($files)) $files=array($files);
+		if (is_string($files)) $files = array($files);
 
 		$opts = $this->get_options();
 
@@ -201,8 +277,8 @@ class UpdraftPlus_BackupModule_ftp extends UpdraftPlus_BackupModule {
 
 			if (is_wp_error($ftp) || !$ftp->connect()) {
 				if (is_wp_error($ftp)) $updraftplus->log_wp_error($ftp);
-				$updraftplus->log("FTP Failure: we did not successfully log in with those credentials (host=".$opts['host'].").");
-				return false;
+				$this->log("Failure: we did not successfully log in with those credentials (host=".$opts['host'].").");
+				return 'authentication_fail';
 			}
 
 		}
@@ -211,11 +287,11 @@ class UpdraftPlus_BackupModule_ftp extends UpdraftPlus_BackupModule {
 
 		$ret = true;
 		foreach ($files as $file) {
-			if (@$ftp->delete($ftp_remote_path.$file)) {
-				$updraftplus->log("FTP delete: succeeded (${ftp_remote_path}${file})");
+			if (@$ftp->delete($ftp_remote_path.$file)) {// phpcs:ignore Generic.PHP.NoSilencedErrors.Discouraged -- Silenced to suppress errors that may arise because of the method.
+				$this->log("delete: succeeded ({$ftp_remote_path}{$file})");
 			} else {
-				$updraftplus->log("FTP delete: failed (${ftp_remote_path}${file})");
-				$ret = false;
+				$this->log("delete: failed ({$ftp_remote_path}{$file})");
+				$ret = 'file_delete_error';
 			}
 		}
 		return $ret;
@@ -237,15 +313,20 @@ class UpdraftPlus_BackupModule_ftp extends UpdraftPlus_BackupModule {
 			$updraftplus->get_job_option('updraft_ssl_useservercerts'),
 			$opts['passive']
 		);
-		if (is_wp_error($ftp)) return $ftp;
 
-		if (!$ftp->connect()) {
-			$updraftplus->log("FTP Failure: we did not successfully log in with those credentials.");
-			$updraftplus->log(sprintf(__("%s login failure",'updraftplus'), 'FTP'), 'error');
+		if (is_wp_error($ftp)) {
+			$this->log('Failure to get FTP object: '.$ftp->get_error_code().': '.$ftp->get_error_message());
+			$this->log($ftp->get_error_message().' ('.$ftp->get_error_code().')', 'error');
 			return false;
 		}
 
-		//$ftp->make_dir(); we may need to recursively create dirs? TODO
+		if (!$ftp->connect()) {
+			$this->log('Failure: we did not successfully log in with those credentials.');
+			$this->log(__('login failure', 'updraftplus'), 'error');
+			return false;
+		}
+
+		// $ftp->make_dir(); we may need to recursively create dirs? TODO
 		
 		$ftp_remote_path = trailingslashit($opts['path']);
 		$fullpath = $updraftplus->backups_dir_location().'/'.$file;
@@ -253,7 +334,7 @@ class UpdraftPlus_BackupModule_ftp extends UpdraftPlus_BackupModule {
 		$resume = false;
 		if (file_exists($fullpath)) {
 			$resume = true;
-			$updraftplus->log("File already exists locally; will resume: size: ".filesize($fullpath));
+			$this->log("File already exists locally; will resume: size: ".filesize($fullpath));
 		}
 
 		return $ftp->get($fullpath, $ftp_remote_path.$file, FTP_BINARY, $resume, $updraftplus);
@@ -268,85 +349,80 @@ class UpdraftPlus_BackupModule_ftp extends UpdraftPlus_BackupModule {
 		return (0 == count($funcs_disabled)) ? true : $funcs_disabled;
 	}
 
-	public function config_print() {
-		global $updraftplus;
-
-		$classes = $this->get_css_classes();
-		
-		$possible = $this->ftp_possible();
-		if (is_array($possible)) {
-			?>
-			<tr class="<?php echo $classes;?>">
-			<th></th>
-			<td>
-			<?php
-				// Check requirements.
-				global $updraftplus_admin;
-				$trans = array(
-					'ftp' => __('regular non-encrypted FTP', 'updraftplus'),
-					'ftpsslimplicit' => __('encrypted FTP (implicit encryption)', 'updraftplus'),
-					'ftpsslexplicit' => __('encrypted FTP (explicit encryption)', 'updraftplus')
-				);
-				foreach ($possible as $type => $missing) {
-					$updraftplus_admin->show_double_warning('<strong>'.__('Warning','updraftplus').':</strong> '. sprintf(__("Your web server's PHP installation has these functions disabled: %s.", 'updraftplus'), implode(', ', $missing)).' '.sprintf(__('Your hosting company must enable these functions before %s can work.', 'updraftplus'), $trans[$type]), 'ftp');
-				}
-			?>
-			</td>
-			</tr>
-			<?php
-		}
-
-		$opts = $this->get_options();
-		
+	/**
+	 * Get the pre configuration template
+	 *
+	 * @return String - the template
+	 */
+	public function get_pre_configuration_template() {
 		?>
-
-		<tr class="<?php echo $classes;?>">
-			<td></td>
-			<td><p><em><?php printf(__('%s is a great choice, because UpdraftPlus supports chunked uploads - no matter how big your site is, UpdraftPlus can upload it a little at a time, and not get thwarted by timeouts.','updraftplus'),'FTP');?></em></p></td>
+		<tr class="{{get_template_css_classes false}} ftp_pre_config_container">
+			<td colspan="2">
+				<h3>{{method_display_name}}</h3>
+				{{#each ftp_not_possible_warnings}}
+					<div class="error updraftplusmethod ftp"><p>{{{this}}}</p></div>
+					<div class="notice error below-h2"><p>{{{this}}}</p></div>
+				{{/each}} 
+				{{#ifCond "undefined" "not_typeof" updraft_sftp_ftps_notice}}
+				<em><p>{{{updraft_sftp_ftps_notice}}}</p></em>
+				{{/ifCond}}
+			</td>
 		</tr>
-
-		<tr class="<?php echo $classes;?>">
-			<th></th>
-			<td><em><?php echo apply_filters('updraft_sftp_ftps_notice', '<strong>'.htmlspecialchars(__('Only non-encrypted FTP is supported by regular UpdraftPlus.')).'</strong> <a href="'.apply_filters("updraftplus_com_link","https://updraftplus.com/shop/sftp/").'">'.__('If you want encryption (e.g. you are storing sensitive business data), then an add-on is available.','updraftplus')).'</a>'; ?></em></td>
-		</tr>
-
-		<tr class="<?php echo $classes;?>">
-			<th><?php _e('FTP server','updraftplus');?>:</th>
-			<td><input type="text" size="40" data-updraft_settings_test="server" <?php $this->output_settings_field_name_and_id('host');?> value="<?php echo htmlspecialchars($opts['host']); ?>" /></td>
-		</tr>
-		
-		<tr class="<?php echo $classes;?>">
-			<th><?php _e('FTP login','updraftplus');?>:</th>
-			<td><input type="text" size="40" data-updraft_settings_test="login" <?php $this->output_settings_field_name_and_id('user');?> value="<?php echo htmlspecialchars($opts['user']) ?>" /></td>
-		</tr>
-		
-		<tr class="<?php echo $classes;?>">
-			<th><?php _e('FTP password','updraftplus');?>:</th>
-			<td><input type="<?php echo apply_filters('updraftplus_admin_secret_field_type', 'password'); ?>" size="40" data-updraft_settings_test="pass" <?php $this->output_settings_field_name_and_id('pass');?> value="<?php echo htmlspecialchars(trim($opts['pass'], "\n\r\0\x0B")); ?>" /></td>
-		</tr>
-		
-		<tr class="<?php echo $classes;?>">
-			<th><?php _e('Remote path','updraftplus');?>:</th>
-			<td><input type="text" size="64" data-updraft_settings_test="path" <?php $this->output_settings_field_name_and_id('path');?> value="<?php echo htmlspecialchars($opts['path']); ?>" /> <em><?php _e('Needs to already exist','updraftplus');?></em></td>
-		</tr>
-		
-		<tr class="<?php echo $classes;?>">
-			<th><?php _e('Passive mode','updraftplus');?>:</th>
-			<td>
-			<input type="checkbox" data-updraft_settings_test="passive" <?php $this->output_settings_field_name_and_id('passive');?> value="1" <?php if ($opts['passive']) echo 'checked="checked"'; ?> /> <br><em><?php echo __('Almost all FTP servers will want passive mode; but if you need active mode, then uncheck this.', 'updraftplus');?></em></td>
-		</tr>
-		
 		<?php
+	}
+
+	/**
+	 * Get the configuration template
+	 *
+	 * @return String - the template, ready for substitutions to be carried out
+	 */
+	public function get_configuration_template() {
+
+		ob_start();
+	
+		?>
+		<tr class="{{get_template_css_classes true}}">
+			<th>{{input_host_label}}:</th>
+			<td><input class="updraft_input--wide" type="text" size="40" data-updraft_settings_test="server" id="{{get_template_input_attribute_value "id" "host"}}" name="{{get_template_input_attribute_value "name" "host"}}" value="{{host}}" /></td>
+		</tr>
 		
-		echo $this->get_test_button_html('FTP');
+		<tr class="{{get_template_css_classes true}}">
+			<th>{{input_user_label}}:</th>
+			<td><input class="updraft_input--wide" type="text" size="40" data-updraft_settings_test="login" id="{{get_template_input_attribute_value "id" "user"}}" name="{{get_template_input_attribute_value "name" "user"}}" value="{{user}}" /></td>
+		</tr>
+		
+		<tr class="{{get_template_css_classes true}}">
+			<th>{{input_password_label}}:</th>
+			<td><input class="updraft_input--wide" type="{{input_password_type}}" size="40" data-updraft_settings_test="pass" id="{{get_template_input_attribute_value "id" "pass"}}" name="{{get_template_input_attribute_value "name" "pass"}}" value="{{pass}}" /></td>
+		</tr>
+		
+		<tr class="{{get_template_css_classes true}}">
+			<th>{{input_path_label}}:</th>
+			<td><input title="{{input_path_title}}" class="updraft_input--wide" type="text" size="64" data-updraft_settings_test="path" id="{{get_template_input_attribute_value "id" "path"}}" name="{{get_template_input_attribute_value "name" "path"}}" value="{{path}}" /> <em>{{input_path_title}}</em></td>
+		</tr>
+		
+		<tr class="{{get_template_css_classes true}}">
+			<th>{{input_passive_label}}:</th>
+			<td>
+			<input title="{{input_passive_title}}" type="checkbox" data-updraft_settings_test="passive" id="{{get_template_input_attribute_value "id" "passive"}}" name="{{get_template_input_attribute_value "name" "passive"}}" value="1" {{#ifeq '1' passive}}checked="checked"{{/ifeq}}> <br><em>{{input_passive_title}}</em></td>
+		</tr>
+		
+		{{{get_template_test_button_html "FTP"}}}
+		<?php
+		return ob_get_clean();
 		
 	}
 
+	/**
+	 * Perform a test of user-supplied credentials, and echo the result
+	 *
+	 * @param Array $posted_settings - settings to test
+	 */
 	public function credentials_test($posted_settings) {
 
 		$server = $posted_settings['server'];
-		$login = stripslashes($posted_settings['login']);
-		$pass = stripslashes($posted_settings['pass']);
+		$login = $posted_settings['login'];
+		$pass = $posted_settings['pass'];
 		$path = $posted_settings['path'];
 		$nossl = $posted_settings['nossl'];
 		$passive = empty($posted_settings['passive']) ? false : true;
@@ -355,35 +431,35 @@ class UpdraftPlus_BackupModule_ftp extends UpdraftPlus_BackupModule {
 		$use_server_certs = $posted_settings['useservercerts'];
 
 		if (empty($server)) {
-			_e("Failure: No server details were given.",'updraftplus');
+			_e('Failure: No server details were given.', 'updraftplus');
 			return;
 		}
 		if (empty($login)) {
-			printf(__("Failure: No %s was given.",'updraftplus'), __('login', 'updraftplus'));
+			printf(__('Failure: No %s was given.', 'updraftplus'), __('login', 'updraftplus'));
 			return;
 		}
 		if (empty($pass)) {
-			printf(__("Failure: No %s was given.",'updraftplus'), __('password', 'updraftplus'));
+			printf(__('Failure: No %s was given.', 'updraftplus'), __('password', 'updraftplus'));
 			return;
 		}
 
 		if (preg_match('#ftp(es|s)?://(.*)#i', $server, $matches)) $server = untrailingslashit($matches[2]);
 
-		//$ftp = $this->getFTP($server, $login, $pass, $nossl, $disable_verify, $use_server_certs);
+		// $ftp = $this->getFTP($server, $login, $pass, $nossl, $disable_verify, $use_server_certs);
 		$ftp = $this->getFTP($server, $login, $pass, $nossl, $disable_verify, $use_server_certs, $passive);
 
 		if (!$ftp->connect()) {
 			_e('Failure: we did not successfully log in with those credentials.', 'updraftplus');
 			return;
 		}
-		//$ftp->make_dir(); we may need to recursively create dirs? TODO
+		// $ftp->make_dir(); we may need to recursively create dirs? TODO
 
-		$file = md5(rand(0,99999999)).'.tmp';
+		$file = md5(rand(0, 99999999)).'.tmp';
 		$fullpath = trailingslashit($path).$file;
 		
 		if ($ftp->put(ABSPATH.WPINC.'/version.php', $fullpath, FTP_BINARY, false, true)) {
 			echo __("Success: we successfully logged in, and confirmed our ability to create a file in the given directory (login type:", 'updraftplus')." ".$ftp->login_type.')';
-			@$ftp->delete($fullpath);
+			@$ftp->delete($fullpath);// phpcs:ignore Generic.PHP.NoSilencedErrors.Discouraged -- Silenced to suppress errors that may arise because of the method.
 		} else {
 			_e('Failure: we successfully logged in, but were not able to create a file in the given directory.', 'updraftplus');
 			if (!empty($ftp->ssl)) {
@@ -393,4 +469,15 @@ class UpdraftPlus_BackupModule_ftp extends UpdraftPlus_BackupModule {
 
 	}
 
+	/**
+	 * Check whether options have been set up by the user, or not
+	 *
+	 * @param Array $opts - the potential options
+	 *
+	 * @return Boolean
+	 */
+	public function options_exist($opts) {
+		if (is_array($opts) && !empty($opts['host']) && isset($opts['user']) && '' != $opts['user']) return true;
+		return false;
+	}
 }

@@ -15,7 +15,7 @@
  * limitations under the License.
  */
  
-if (!class_exists('Google_Client')) {
+if (!class_exists('UDP_Google_Client')) {
   require_once dirname(__FILE__) . '/../autoload.php';
 }
 
@@ -65,6 +65,7 @@ class Google_Verifier_Pem extends Google_Verifier_Abstract
    */
   public function verify($data, $signature)
   {
+    // @codingStandardsIgnoreLine
     $hash = defined("OPENSSL_ALGO_SHA256") ? OPENSSL_ALGO_SHA256 : "sha256";
     $status = openssl_verify($data, $signature, $this->publicKey, $hash);
     if ($status === -1) {

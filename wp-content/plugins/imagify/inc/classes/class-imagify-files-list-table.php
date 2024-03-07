@@ -4,66 +4,54 @@ defined( 'ABSPATH' ) || die( 'Cheatin’ uh?' );
 /**
  * Class that display the "custom folders" files.
  *
- * @package Imagify
- * @since   1.7
- * @author  Grégory Viguier
+ * @since 1.7
  */
 class Imagify_Files_List_Table extends WP_List_Table {
 
 	/**
 	 * Class version.
 	 *
-	 * @var   string
+	 * @var string
 	 * @since 1.7
-	 * @author Grégory Viguier
 	 */
 	const VERSION = '1.1';
 
 	/**
 	 * Class version.
 	 *
-	 * @var   string
+	 * @var string
 	 * @since 1.7
-	 * @author Grégory Viguier
 	 */
 	const PER_PAGE_OPTION = 'imagify_files_per_page';
 
 	/**
 	 * List of the folders containing the listed files.
 	 *
-	 * @var    array
-	 * @since  1.7
-	 * @access protected
-	 * @author Grégory Viguier
+	 * @var array
+	 * @since 1.7
 	 */
 	protected $folders = array();
 
 	/**
 	 * Filesystem object.
 	 *
-	 * @var    object Imagify_Filesystem
-	 * @since  1.7.1
-	 * @access protected
-	 * @author Grégory Viguier
+	 * @var Imagify_Filesystem
+	 * @since 1.7.1
 	 */
 	protected $filesystem;
 
 	/**
 	 * Views object.
 	 *
-	 * @var    object Imagify_Views
-	 * @since  1.9
-	 * @access protected
-	 * @author Grégory Viguier
+	 * @var Imagify_Views
+	 * @since 1.9
 	 */
 	protected $views;
 
 	/**
 	 * Constructor.
 	 *
-	 * @since  1.7
-	 * @access public
-	 * @author Grégory Viguier
+	 * @since 1.7
 	 *
 	 * @param array $args An associative array of arguments.
 	 */
@@ -84,9 +72,7 @@ class Imagify_Files_List_Table extends WP_List_Table {
 	/**
 	 * Prepares the list of items for displaying.
 	 *
-	 * @since  1.7
-	 * @access public
-	 * @author Grégory Viguier
+	 * @since 1.7
 	 */
 	public function prepare_items() {
 		global $wpdb;
@@ -113,8 +99,8 @@ class Imagify_Files_List_Table extends WP_List_Table {
 		$file_ids = array();
 		$where    = '';
 
-		$sent_orderby  = filter_input( INPUT_GET, 'orderby', FILTER_SANITIZE_STRING );
-		$sent_order    = filter_input( INPUT_GET, 'order', FILTER_SANITIZE_STRING );
+		$sent_orderby  = isset( $_GET['orderby'] ) ? htmlspecialchars( wp_unslash( $_GET['orderby'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.NonceVerification.Recommended
+		$sent_order    = isset( $_GET['order'] ) ? htmlspecialchars( wp_unslash( $_GET['order'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.NonceVerification.Recommended
 		$folder_filter = self::get_folder_filter();
 		$status_filter = self::get_status_filter();
 
@@ -232,9 +218,7 @@ class Imagify_Files_List_Table extends WP_List_Table {
 	/**
 	 * Message to be displayed when there are no items.
 	 *
-	 * @since  1.7
-	 * @access public
-	 * @author Grégory Viguier
+	 * @since 1.7
 	 */
 	public function no_items() {
 		if ( self::get_status_filter() ) {
@@ -301,9 +285,7 @@ class Imagify_Files_List_Table extends WP_List_Table {
 	/**
 	 * Display views.
 	 *
-	 * @since  1.7
-	 * @access public
-	 * @author Grégory Viguier
+	 * @since 1.7
 	 */
 	public function views() {
 		global $wpdb;
@@ -419,9 +401,7 @@ class Imagify_Files_List_Table extends WP_List_Table {
 	/**
 	 * Get an associative array ( option_name => option_title ) with the list of bulk actions available on this table.
 	 *
-	 * @since  1.7
-	 * @access public
-	 * @author Grégory Viguier
+	 * @since 1.7
 	 *
 	 * @return array
 	 */
@@ -435,9 +415,7 @@ class Imagify_Files_List_Table extends WP_List_Table {
 	 * Get a list of columns. The format is:
 	 * 'internal-name' => 'Title'
 	 *
-	 * @since  1.7
-	 * @access public
-	 * @author Grégory Viguier
+	 * @since 1.7
 	 *
 	 * @return array
 	 */
@@ -461,9 +439,7 @@ class Imagify_Files_List_Table extends WP_List_Table {
 	 *
 	 * The second format will make the initial sorting order be descending.
 	 *
-	 * @since  1.7
-	 * @access public
-	 * @author Grégory Viguier
+	 * @since 1.7
 	 *
 	 * @return array
 	 */
@@ -479,9 +455,7 @@ class Imagify_Files_List_Table extends WP_List_Table {
 	/**
 	 * Get a column contents.
 	 *
-	 * @since  1.7
-	 * @access public
-	 * @author Grégory Viguier
+	 * @since 1.7
 	 *
 	 * @param  string $column The column "name": "cb", "title", "optimization_level", etc.
 	 * @param  object $item   The current item. It must contain at least a $process property.
@@ -500,9 +474,7 @@ class Imagify_Files_List_Table extends WP_List_Table {
 	/**
 	 * Handles the checkbox column output.
 	 *
-	 * @since  1.7
-	 * @access public
-	 * @author Grégory Viguier
+	 * @since 1.7
 	 *
 	 * @param object $item The current item. It must contain at least a $process property.
 	 */
@@ -517,9 +489,7 @@ class Imagify_Files_List_Table extends WP_List_Table {
 	/**
 	 * Handles the title column output.
 	 *
-	 * @since  1.7
-	 * @access public
-	 * @author Grégory Viguier
+	 * @since 1.7
 	 *
 	 * @param object $item The current item. It must contain at least a $process property.
 	 */
@@ -568,9 +538,7 @@ class Imagify_Files_List_Table extends WP_List_Table {
 	/**
 	 * Handles the parent folder column output.
 	 *
-	 * @since  1.7
-	 * @access public
-	 * @author Grégory Viguier
+	 * @since 1.7
 	 *
 	 * @param object $item The current item. It must contain at least a $process property.
 	 */
@@ -604,9 +572,7 @@ class Imagify_Files_List_Table extends WP_List_Table {
 	/**
 	 * Handles the optimization data column output.
 	 *
-	 * @since  1.7
-	 * @access public
-	 * @author Grégory Viguier
+	 * @since 1.7
 	 *
 	 * @param object $item The current item. It must contain at least a $process property.
 	 */
@@ -640,11 +606,11 @@ class Imagify_Files_List_Table extends WP_List_Table {
 				</li>
 				<?php
 				if ( $item->process->get_media()->is_image() ) {
-					$has_webp = $item->process->has_webp() ? __( 'Yes', 'imagify' ) : __( 'No', 'imagify' );
+					$has_nextgen = $item->process->has_next_gen() ? __( 'Yes', 'imagify' ) : __( 'No', 'imagify' );
 					?>
 					<li class="imagify-data-item">
-						<span class="data"><?php esc_html_e( 'Webp generated:', 'imagify' ); ?></span>
-						<strong class="data-value"><?php echo esc_html( $has_webp ); ?></strong>
+						<span class="data"><?php esc_html_e( 'Next-Gen generated:', 'imagify' ); ?></span>
+						<strong class="data-value"><?php echo esc_html( $has_nextgen ); ?></strong>
 					</li>
 					<?php
 				}
@@ -657,9 +623,7 @@ class Imagify_Files_List_Table extends WP_List_Table {
 	/**
 	 * Handles the status column output.
 	 *
-	 * @since  1.7
-	 * @access public
-	 * @author Grégory Viguier
+	 * @since 1.7
 	 *
 	 * @param object $item The current item. It must contain at least a $process property.
 	 */
@@ -693,9 +657,7 @@ class Imagify_Files_List_Table extends WP_List_Table {
 	/**
 	 * Handles the optimization level column output.
 	 *
-	 * @since  1.7
-	 * @access public
-	 * @author Grégory Viguier
+	 * @since 1.7
 	 *
 	 * @param object $item The current item. It must contain at least a $process property.
 	 */
@@ -710,9 +672,7 @@ class Imagify_Files_List_Table extends WP_List_Table {
 	/**
 	 * Handles the actions column output.
 	 *
-	 * @since  1.7
-	 * @access public
-	 * @author Grégory Viguier
+	 * @since 1.7
 	 *
 	 * @param object $item The current item. It must contain at least a $process property.
 	 */
@@ -740,17 +700,15 @@ class Imagify_Files_List_Table extends WP_List_Table {
 		$this->optimize_button( $item );
 		$this->retry_button( $item );
 		$this->reoptimize_buttons( $item );
-		$this->generate_webp_versions_button( $item );
-		$this->delete_webp_versions_button( $item );
+		$this->generate_nextgen_versions_button( $item );
+		$this->delete_nextgen_versions_button( $item );
 		$this->restore_button( $item );
 	}
 
 	/**
 	 * Prints a button to optimize the file.
 	 *
-	 * @since  1.7
-	 * @access protected
-	 * @author Grégory Viguier
+	 * @since 1.7
 	 *
 	 * @param object $item The current item. It must contain at least a $process property.
 	 */
@@ -777,9 +735,7 @@ class Imagify_Files_List_Table extends WP_List_Table {
 	/**
 	 * Prints a button to retry to optimize the file.
 	 *
-	 * @since  1.7
-	 * @access protected
-	 * @author Grégory Viguier
+	 * @since 1.7
 	 *
 	 * @param object $item The current item. It must contain at least a $process property.
 	 */
@@ -809,9 +765,7 @@ class Imagify_Files_List_Table extends WP_List_Table {
 	/**
 	 * Prints buttons to re-optimize the file to other levels.
 	 *
-	 * @since  1.7
-	 * @access protected
-	 * @author Grégory Viguier
+	 * @since 1.7
 	 *
 	 * @param object $item The current item. It must contain at least a $process property.
 	 */
@@ -836,34 +790,30 @@ class Imagify_Files_List_Table extends WP_List_Table {
 		$data        = [];
 		$url_args    = [ 'attachment_id' => $media->get_id() ];
 
-		foreach ( [ 2, 1, 0 ] as $level ) {
-			/**
-			 * Display a link if:
-			 * - the level is lower than the one used to optimize the media,
-			 * - or, the level is higher and the media is not already optimized.
-			 */
-			if ( $media_level < $level || ( $media_level > $level && ! $is_already_optimized ) ) {
-				$url_args['optimization_level'] = $level;
-				$data['optimization_level']     = $level;
-				$data['url']                    = get_imagify_admin_url( 'reoptimize-file', $url_args );
+		if ( $media_level < 1 ) {
+			$url_args['optimization_level'] = 2;
+			$data['optimization_level']     = 2;
+			$data['url']                    = get_imagify_admin_url( 'reoptimize-file', $url_args );
 
-				echo $this->views->get_template( 'button/re-optimize', $data );
-				echo '<br/>';
-			}
+			echo $this->views->get_template( 'button/re-optimize', $data );
+		} elseif ( $media_level > 0 ) {
+			$url_args['optimization_level'] = 0;
+			$data['optimization_level']     = 0;
+			$data['url']                    = get_imagify_admin_url( 'reoptimize-file', $url_args );
+
+			echo $this->views->get_template( 'button/re-optimize', $data );
 		}
 	}
 
 	/**
-	 * Prints a button to generate webp versions if they are missing.
+	 * Prints a button to generate Next gen versions if they are missing.
 	 *
-	 * @since  1.7
-	 * @access protected
-	 * @author Grégory Viguier
+	 * @since 1.7
 	 *
 	 * @param object $item The current item. It must contain at least a $process property.
 	 */
-	protected function generate_webp_versions_button( $item ) {
-		$button = get_imagify_attachment_generate_webp_versions_link( $item->process );
+	protected function generate_nextgen_versions_button( $item ) {
+		$button = get_imagify_attachment_generate_nextgen_versions_link( $item->process );
 
 		if ( $button ) {
 			echo $button . '<br/>';
@@ -871,16 +821,14 @@ class Imagify_Files_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Prints a button to delete webp versions when the status is "already_optimized".
+	 * Prints a button to delete next-gen versions when the status is "already_optimized".
 	 *
-	 * @since  1.9.6
-	 * @access protected
-	 * @author Grégory Viguier
+	 * @since 1.9.6
 	 *
 	 * @param object $item The current item. It must contain at least a $process property.
 	 */
-	protected function delete_webp_versions_button( $item ) {
-		$button = get_imagify_attachment_delete_webp_versions_link( $item->process );
+	protected function delete_nextgen_versions_button( $item ) {
+		$button = get_imagify_attachment_delete_nextgen_versions_link( $item->process );
 
 		if ( $button ) {
 			echo $button . '<br/>';
@@ -890,9 +838,7 @@ class Imagify_Files_List_Table extends WP_List_Table {
 	/**
 	 * Prints a button to restore the file.
 	 *
-	 * @since  1.7
-	 * @access protected
-	 * @author Grégory Viguier
+	 * @since 1.7
 	 *
 	 * @param object $item The current item. It must contain at least a $process property.
 	 */
@@ -914,9 +860,7 @@ class Imagify_Files_List_Table extends WP_List_Table {
 	/**
 	 * Prints a button to check if the file has been modified or not.
 	 *
-	 * @since  1.7
-	 * @access protected
-	 * @author Grégory Viguier
+	 * @since 1.7
 	 *
 	 * @param object $item The current item. It must contain at least a $process property.
 	 */
@@ -932,9 +876,7 @@ class Imagify_Files_List_Table extends WP_List_Table {
 	/**
 	 * Prints a button for the comparison tool (before / after optimization).
 	 *
-	 * @since  1.7
-	 * @access protected
-	 * @author Grégory Viguier
+	 * @since 1.7
 	 *
 	 * @param object $item The current item. It must contain at least a $process property.
 	 */
@@ -980,9 +922,7 @@ class Imagify_Files_List_Table extends WP_List_Table {
 	 * Add the folder_id and folder_path properties to the $item if not set yet.
 	 * It may happen if the $item doesn't come from the prepare() method.
 	 *
-	 * @since  1.7
-	 * @access protected
-	 * @author Grégory Viguier
+	 * @since 1.7
 	 *
 	 * @param  object $item The current item. It must contain at least a $process property.
 	 * @return object       The current item.
@@ -1017,9 +957,7 @@ class Imagify_Files_List_Table extends WP_List_Table {
 	/**
 	 * Get the name of the default primary column.
 	 *
-	 * @since  1.7
-	 * @access protected
-	 * @author Grégory Viguier
+	 * @since 1.7
 	 *
 	 * @return string Name of the default primary column, in this case, 'title'.
 	 */
@@ -1030,9 +968,7 @@ class Imagify_Files_List_Table extends WP_List_Table {
 	/**
 	 * Get a list of CSS classes for the WP_List_Table table tag.
 	 *
-	 * @since  1.7
-	 * @access protected
-	 * @author Grégory Viguier
+	 * @since 1.7
 	 *
 	 * @return array List of CSS classes for the table tag.
 	 */
@@ -1043,9 +979,7 @@ class Imagify_Files_List_Table extends WP_List_Table {
 	/**
 	 * Allow to save the screen options when submitted by the user.
 	 *
-	 * @since  1.7
-	 * @access public
-	 * @author Grégory Viguier
+	 * @since 1.7
 	 *
 	 * @param  bool|int $status Screen option value. Default false to skip.
 	 * @param  string   $option The option name.
@@ -1063,9 +997,7 @@ class Imagify_Files_List_Table extends WP_List_Table {
 	/**
 	 * Get the requested folder filter.
 	 *
-	 * @since  1.7
-	 * @access public
-	 * @author Grégory Viguier
+	 * @since 1.7
 	 *
 	 * @return string
 	 */
@@ -1083,9 +1015,7 @@ class Imagify_Files_List_Table extends WP_List_Table {
 	/**
 	 * Get the requested status filter.
 	 *
-	 * @since  1.7
-	 * @access public
-	 * @author Grégory Viguier
+	 * @since 1.7
 	 *
 	 * @return string
 	 */
@@ -1101,7 +1031,7 @@ class Imagify_Files_List_Table extends WP_List_Table {
 			'unoptimized' => 1,
 			'errors'      => 1,
 		);
-		$filter = trim( filter_input( INPUT_GET, 'status-filter', FILTER_SANITIZE_STRING ) );
+		$filter = isset( $_GET['status-filter'] ) ? trim( htmlspecialchars( wp_unslash( $_GET['status-filter'] ) ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.NonceVerification.Recommended
 		$filter = isset( $values[ $filter ] ) ? $filter : '';
 
 		return $filter;
