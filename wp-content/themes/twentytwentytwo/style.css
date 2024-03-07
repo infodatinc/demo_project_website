@@ -159,6 +159,7 @@ body > .is-root-container > .wp-block-template-part > .wp-block-cover,
 .wp-block-post-comments ol.commentlist li.comment:not(:last-child) {
 	margin-bottom: 1rem;
 }
-.wp-block-pages-list__item wp-block-navigation-item open-on-hover-click{
-border-bottom-style: dotted;
+
+.wp-block-navigation__responsive-container .wp-block-navigation__responsive-container-content{
+	color: pink;
 }
