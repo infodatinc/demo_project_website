@@ -1,11 +1,12 @@
 <?php
+use Imagify\CLI\CommandInterface;
+
 defined( 'ABSPATH' ) || die( 'Cheatin’ uh?' );
 
 /**
  * Returns the main instance of the Imagify class.
  *
  * @since  1.6.5
- * @author Grégory Viguier
  *
  * @return object The Imagify instance.
  */
@@ -86,8 +87,7 @@ function upload_imagify_image( $data ) {
 /**
  * Get Imagify Plans Prices.
  *
- * @since  1.5
- * @author Geoffrey Crofte
+ * @since 1.5
  *
  * @return object
  */
@@ -96,22 +96,9 @@ function get_imagify_plans_prices() {
 }
 
 /**
- * Get Imagify Plans Prices.
+ * Get Imagify All Prices (plans).
  *
- * @since  1.5
- * @author Geoffrey Crofte
- *
- * @return object
- */
-function get_imagify_packs_prices() {
-	return imagify()->get_packs_prices();
-}
-
-/**
- * Get Imagify All Prices (plan & packs).
- *
- * @since  1.5.4
- * @author Geoffrey Crofte
+ * @since 1.5.4
  *
  * @return object
  */
@@ -122,8 +109,7 @@ function get_imagify_all_prices() {
 /**
  * Check if Coupon Code exists.
  *
- * @since  1.6
- * @author Geoffrey Crofte
+ * @since 1.6
  *
  * @param  string $coupon the coupon code to check.
  * @return object
@@ -135,8 +121,7 @@ function check_imagify_coupon_code( $coupon ) {
 /**
  * Check if Discount/Promotion is available.
  *
- * @since  1.6.3
- * @author Geoffrey Crofte
+ * @since 1.6.3
  *
  * @return object
  */
@@ -147,8 +132,7 @@ function check_imagify_discount() {
 /**
  * Get Maximum image size for free plan.
  *
- * @since  1.5.6
- * @author Remy Perona
+ * @since 1.5.6
  *
  * @return string
  */
@@ -170,17 +154,17 @@ function get_imagify_max_image_size() {
 /**
  * Translate a message from our servers.
  *
- * @since  1.6.10
- * @author Grégory Viguier
- * @see    Imagify::curl_http_call()
- * @see    Imagify::handle_response()
+ * @since 1.6.10
+ *
+ * @see Imagify::curl_http_call()
+ * @see Imagify::handle_response()
  *
  * @param  string $message The message from the server (in English).
  * @return string          If in our list, the translated message. The original message otherwise.
  */
 function imagify_translate_api_message( $message ) {
 	if ( ! $message ) {
-		return imagify_translate_api_message( 'Unknown error occurred' );
+		$message = 'Unknown error occurred';
 	}
 
 	if ( is_wp_error( $message ) ) {
@@ -205,11 +189,17 @@ function imagify_translate_api_message( $message ) {
 
 	$trim_message = trim( $message, '. ' );
 
-	$messages = array(
+	$messages = [
 		// Local messages from Imagify::curl_http_call() and Imagify::handle_response().
 		'Could not initialize a new cURL handle'                                                   => __( 'Could not initialize a new cURL handle.', 'imagify' ),
-		'Unknown error occurred'                                                                   => __( 'Unknown error occurred.', 'imagify' ),
+		'Unknown error occurred'                                                                   => sprintf(
+			// translators: %1$s = opening link tag, %2$s = closing link tag.
+			__( 'An unknown error occurred: %1$sMore info and possible solutions%2$s', 'imagify' ),
+			'<a href="https://imagify.io/documentation/optimization-is-stuck/" rel="noopener" target="_blank">',
+			'</a>'
+		),
 		'Your image is too big to be uploaded on our server'                                       => __( 'Your file is too big to be uploaded on our server.', 'imagify' ),
+		'Webp is less performant than original'                                                    => __( 'WebP file is larger than the original image', 'imagify' ),
 		'Our server returned an invalid response'                                                  => __( 'Our server returned an invalid response.', 'imagify' ),
 		'cURL isn\'t installed on the server'                                                      => __( 'cURL is not available on the server.', 'imagify' ),
 		// API messages.
@@ -233,7 +223,7 @@ function imagify_translate_api_message( $message ) {
 		'You\'ve consumed all your data. You have to upgrade your account to continue'             => __( 'You have consumed all your data. You have to upgrade your account to continue.', 'imagify' ),
 		'Invalid token'                                                                            => __( 'Invalid API key', 'imagify' ),
 		'Upload a valid image. The file you uploaded was either not an image or a corrupted image' => __( 'Invalid or corrupted file.', 'imagify' ),
-	);
+	];
 
 	if ( isset( $messages[ $trim_message ] ) ) {
 		return $messages[ $trim_message ];
@@ -270,4 +260,56 @@ function imagify_translate_api_message( $message ) {
 	}
 
 	return $message;
+}
+
+/**
+ * Runs the bulk optimization
+ *
+ * @param array $contexts An array of contexts (WP/Custom folders).
+ * @param int   $optimization_level Optimization level to use.
+ *
+ * @return void
+ */
+function imagify_bulk_optimize( $contexts, $optimization_level ) {
+	foreach ( $contexts as $context ) {
+		Imagify\Bulk\Bulk::get_instance()->run_optimize( $context, $optimization_level );
+	}
+}
+
+/**
+ * Runs the next-gen generation
+ *
+ * @param array $contexts An array of contexts (WP/Custom folders).
+ *
+ * @return void
+ */
+function imagify_generate_nextgen( $contexts ) {
+	Imagify\Bulk\Bulk::get_instance()->run_generate_nextgen( $contexts );
+}
+
+/**
+ * Add command to WP CLI
+ *
+ * @param CommandInterface $command Command object.
+ *
+ * @return void
+ */
+function imagify_add_command( CommandInterface $command ) {
+	if ( ! defined( 'WP_CLI' ) || ! WP_CLI || ! class_exists( '\WP_CLI' ) ) {
+		return;
+	}
+
+	\WP_CLI::add_command( $command->get_name(), $command, [
+		'shortdesc' => $command->get_description(),
+		'synopsis' => $command->get_synopsis(),
+	] );
+}
+
+/**
+ * Checks if the API key is valid
+ *
+ * @return bool
+ */
+function imagify_is_api_key_valid() {
+	return Imagify_Requirements::is_api_key_valid();
 }

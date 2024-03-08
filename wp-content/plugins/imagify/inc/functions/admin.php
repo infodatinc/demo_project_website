@@ -1,11 +1,13 @@
 <?php
+use Imagify\Notices\Notices;
+use Imagify\User\User;
+
 defined( 'ABSPATH' ) || die( 'Cheatin’ uh?' );
 
 /**
  * Tell if the current screen is what we're looking for.
  *
- * @since  1.6.10
- * @author Grégory Viguier
+ * @since 1.6.10
  *
  * @param  string $identifier The screen "name".
  * @return bool
@@ -101,11 +103,11 @@ function get_imagify_admin_url( $action = 'settings', $arg = [] ) {
 		case 'optimize-missing-sizes':
 			return wp_nonce_url( admin_url( 'admin-post.php?action=imagify_optimize_missing_sizes&attachment_id=' . $id . '&context=' . $context ), 'imagify-optimize-missing-sizes-' . $id . '-' . $context );
 
-		case 'generate-webp-versions':
-			return wp_nonce_url( admin_url( 'admin-post.php?action=imagify_generate_webp_versions&attachment_id=' . $id . '&context=' . $context ), 'imagify-generate-webp-versions-' . $id . '-' . $context );
+		case 'generate-nextgen-versions':
+			return wp_nonce_url( admin_url( 'admin-post.php?action=imagify_generate_nextgen_versions&attachment_id=' . $id . '&context=' . $context ), 'imagify-generate-nextgen-versions-' . $id . '-' . $context );
 
-		case 'delete-webp-versions':
-			return wp_nonce_url( admin_url( 'admin-post.php?action=imagify_delete_webp_versions&attachment_id=' . $id . '&context=' . $context ), 'imagify-delete-webp-versions-' . $id . '-' . $context );
+		case 'delete-nextgen-versions':
+			return wp_nonce_url( admin_url( 'admin-post.php?action=imagify_delete_nextgen_versions&attachment_id=' . $id . '&context=' . $context ), 'imagify-delete-nextgen-versions-' . $id . '-' . $context );
 
 		case 'optimize':
 		case 'manual-upload': // Deprecated.
@@ -156,8 +158,7 @@ function get_imagify_admin_url( $action = 'settings', $arg = [] ) {
 			/**
 			 * Provide a URL to a page displaying optimization errors for the given context.
 			 *
-			 * @since  1.9
-			 * @author Grégory Viguier
+			 * @since 1.9
 			 *
 			 * @param string $url The URL.
 			 * @param string $arg The context.
@@ -165,7 +166,7 @@ function get_imagify_admin_url( $action = 'settings', $arg = [] ) {
 			return apply_filters( 'imagify_optimization_errors_url', '', $arg );
 
 		case 'dismiss-notice':
-			return wp_nonce_url( admin_url( 'admin-post.php?action=imagify_dismiss_notice&notice=' . $arg ), Imagify_Notices::DISMISS_NONCE_ACTION );
+			return wp_nonce_url( admin_url( 'admin-post.php?action=imagify_dismiss_notice&notice=' . $arg ), Notices::DISMISS_NONCE_ACTION );
 
 		default:
 			$page = '?page=' . Imagify_Views::get_instance()->get_settings_page_slug();
@@ -205,9 +206,8 @@ function get_imagify_max_intermediate_image_size() {
  * Simple helper to get the WP Rocket's site URL.
  * The URL is localized and contains some utm_*** parameters.
  *
- * @since  1.6.8
- * @since  1.6.9 Added $path and $query parameters.
- * @author Grégory Viguier
+ * @since 1.6.8
+ * @since 1.6.9 Added $path and $query parameters.
  *
  * @param  string $path  A path to add to the URL (URI). Not in use yet.
  * @param  array  $query An array of query arguments (utm_*).
@@ -257,23 +257,27 @@ function imagify_get_wp_rocket_url( $path = false, $query = array() ) {
 /**
  * Check for nonce.
  *
- * @since  1.6.10
- * @author Grégory Viguier
+ * @since 1.9.11 Return true when nonce is good.
+ * @since 1.6.10
  *
  * @param string      $action Action nonce.
  * @param string|bool $query_arg Optional. Key to check for the nonce in `$_REQUEST`. If false, `$_REQUEST` values will be evaluated for '_ajax_nonce', and '_wpnonce' (in that order). Default false.
+ *
+ * @return bool   True if the nonce is good; otherwise terminates.
  */
 function imagify_check_nonce( $action, $query_arg = false ) {
 	if ( ! check_ajax_referer( $action, $query_arg, false ) ) {
 		imagify_die();
+		return false;
 	}
+
+	return true;
 }
 
 /**
  * Die Today.
  *
- * @since  1.6.10
- * @author Grégory Viguier
+ * @since 1.6.10
  *
  * @param string $message A message to display.
  */
@@ -323,8 +327,7 @@ function imagify_die( $message = null ) {
 /**
  * Redirect if not an ajax request.
  *
- * @since  1.6.10
- * @author Grégory Viguier
+ * @since 1.6.10
  *
  * @param string       $message     A message to display in an admin notice once redirected.
  * @param array|string $args_or_url An array of query args to add to the redirection URL. If a string, the complete URL.
@@ -345,8 +348,7 @@ function imagify_maybe_redirect( $message = false, $args_or_url = array() ) {
 	/**
 	 * Filter the URL to redirect to.
 	 *
-	 * @since  1.6.10
-	 * @author Grégory Viguier
+	 * @since 1.6.10
 	 *
 	 * @param string $redirect The URL to redirect to.
 	 */
@@ -354,9 +356,9 @@ function imagify_maybe_redirect( $message = false, $args_or_url = array() ) {
 
 	if ( $message ) {
 		if ( is_multisite() && strpos( $redirect, network_admin_url( '/' ) ) === 0 ) {
-			Imagify_Notices::get_instance()->add_network_temporary_notice( $message );
+			Notices::get_instance()->add_network_temporary_notice( $message );
 		} else {
-			Imagify_Notices::get_instance()->add_site_temporary_notice( $message );
+			Notices::get_instance()->add_site_temporary_notice( $message );
 		}
 	}
 
@@ -368,8 +370,7 @@ function imagify_maybe_redirect( $message = false, $args_or_url = array() ) {
  * Get cached Imagify user data.
  * This is usefull to prevent triggering an HTTP request to our server on every page load, but it can be used only where the data doesn't need to be in real time.
  *
- * @since  1.7
- * @author Grégory Viguier
+ * @since 1.7
  *
  * @return object|bool An object on success. False otherwise.
  */
@@ -391,8 +392,7 @@ function imagify_get_cached_user() {
  * Cache Imagify user data for 5 minutes.
  * Runs every methods to store the results. Also stores formatted data like the quota and the next update date.
  *
- * @since  1.7
- * @author Grégory Viguier
+ * @since 1.7
  *
  * @return object|bool An object on success. False otherwise.
  */
@@ -401,7 +401,7 @@ function imagify_cache_user() {
 		return false;
 	}
 
-	$user    = new Imagify_User();
+	$user    = new User();
 	$data    = (object) get_object_vars( $user );
 	$methods = get_class_methods( $user );
 
@@ -426,8 +426,7 @@ function imagify_cache_user() {
 /**
  * Delete cached Imagify user data.
  *
- * @since  1.9.5
- * @author Grégory Viguier
+ * @since 1.9.5
  */
 function imagify_delete_cached_user() {
 	if ( imagify_is_active_for_network() ) {

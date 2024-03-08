@@ -1,5 +1,5 @@
 <?php
-	if (!defined ('UPDRAFTPLUS_DIR')) die('No direct access allowed');
+	if (!defined('UPDRAFTPLUS_DIR')) die('No direct access allowed');
 ?>
 <div class="expertmode">
 	<p>
@@ -19,6 +19,7 @@
 				$updraftplus_admin->include_template('/wp-admin/advanced/updraftcentral.php');
 				$updraftplus_admin->include_template('/wp-admin/advanced/search-replace.php');
 				$updraftplus_admin->include_template('/wp-admin/advanced/total-size.php');
+				$updraftplus_admin->include_template('/wp-admin/advanced/db-size.php');
 				$updraftplus_admin->include_template('/wp-admin/advanced/export-settings.php');
 				$updraftplus_admin->include_template('/wp-admin/advanced/wipe-settings.php');
 			?>

@@ -159,6 +159,10 @@ class CustomFolders extends AbstractData {
 				$old_data['hash'] = md5_file( $file_path );
 			}
 
+			if ( key_exists( 'message', $data ) ) {
+				$old_data['message'] = $data['message'];
+			}
+
 			if ( ! $data['success'] ) {
 				/**
 				 * Error.
@@ -175,7 +179,7 @@ class CustomFolders extends AbstractData {
 			}
 		} else {
 			/**
-			 * Webp version or any other size.
+			 * WebP version or any other size.
 			 */
 			$old_data['data'] = ! empty( $old_data['data'] ) && is_array( $old_data['data'] ) ? $old_data['data'] : [];
 			$old_data['data']['sizes'] = ! empty( $old_data['data']['sizes'] ) && is_array( $old_data['data']['sizes'] ) ? $old_data['data']['sizes'] : [];
