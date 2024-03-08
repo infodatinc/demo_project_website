@@ -24,7 +24,7 @@ jobs:
           WPE_SSHG_KEY_PRIVATE: ${{secrets.WP_SSHG_KEY_PRIVATE}}
           WPE_ENV: infodatdev
           # Deploy Options
-          REMOTE_PATH: "wp-content/"
+          #REMOTE_PATH: "wp-content/"
           PHP_LINT: TRUE
           CACHE_CLEAR: TRUE
 # Testing
