@@ -7,11 +7,19 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      # - uses: actions/checkout@v2
+      - name: Checkout files and setup environment
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Set up Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20.11.1
       - name: GitHub Action Deploy to WP Engine
         uses: wpengine/github-action-wpe-site-deploy@v3
         with:
-          ARGS: "nvm install v20.11.1"
+          # ARGS: "nvm install v20.11.1"
           # Deploy vars
           WPE_SSHG_KEY_PRIVATE: ${{secrets.WP_SSHG_KEY_PRIVATE}}
           WPE_ENV: infodatdev
