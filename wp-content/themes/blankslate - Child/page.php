@@ -34,8 +34,8 @@
   <!-- mission statement here -->
 
 <div class="mission_section">
-<h2 class="mission_title">Our Mission1</h2>
-   <p class="mission_description"> OUR missions is to partner with businesses 
+<h2 class="mission_title">Our Mission</h2>
+   <p class="mission_description"> our missions is to partner with businesses 
     of all sizes and industries, assisting them in harnessing the full potential of their 
     data to drive informed decision-making and achieve sustainable growth. 
     We strive to deliver exceptional value to our clients by providing cutting-edge analytics solutions and strategic consulting services tailored to their unique needs. </p>
