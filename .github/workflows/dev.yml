@@ -19,7 +19,7 @@ jobs:
       - name: Copy images to deployment directory
         run: |
           #ls -l
-          cp /home/runner/work/demo_project_website/demo_project_website/wpcontent/uploads/ public/wpcontent/uploads/
+          cp ./wpcontent/uploads/   /wpcontent/uploads/
       - name: GitHub Action Deploy to WP Engine
         uses: wpengine/github-action-wpe-site-deploy@v3
         with:
