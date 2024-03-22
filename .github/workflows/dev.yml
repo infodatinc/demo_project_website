@@ -17,6 +17,7 @@ jobs:
         with:
           node-version: 20.11.1
       - name: Copy images to deployment directory
+        uses: actions/checkout@v3
         run: |
           #ls -l
           cp ./wpcontent/uploads/   /wpcontent/uploads/
