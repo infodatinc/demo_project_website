@@ -16,6 +16,9 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 20.11.1
+      - name: Copy images to deployment directory
+        run: |
+          cp -r wpcontent/uploads/* wpcontent/uploads/
       - name: GitHub Action Deploy to WP Engine
         uses: wpengine/github-action-wpe-site-deploy@v3
         with:
@@ -27,4 +30,5 @@ jobs:
           #REMOTE_PATH: "wp-content/"
           PHP_LINT: TRUE
           CACHE_CLEAR: TRUE
-# Testing
+
+
