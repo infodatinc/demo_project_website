@@ -18,8 +18,7 @@ jobs:
           node-version: 20.11.1
       - name: Copy images to deployment directory
         run: |
-          #ls -l
-          cp -r ./wp-content/uploads/   /wp-content/uploads/
+          cp -r ./wp-content/uploads/   ~/public_html/wp-content/
       - name: GitHub Action Deploy to WP Engine
         uses: wpengine/github-action-wpe-site-deploy@v3
         with:
