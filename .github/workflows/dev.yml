@@ -16,7 +16,17 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 20.11.1
-      
+      - name: Copy images to deployment directory
+        run: |
+          echo "contents inside wp-content git before"
+          ls -l ./wp-content/uploads/2024/03/
+          if sudo rsync -av ./wp-content/uploads/2024/03/. infodatdev-wpadmin@infodatdev.sftp.wpengine.com/wp-content/uploads/2024/03; then
+            echo "Images copied successfully."
+          else
+            echo "Failed to copy images."
+            exit 1
+          fi
+          echo "contents inside wp-content git after"
       # cp -r ./wp-content/uploads/   /home/runner/work/demo_project_website/demo_project_website/wp-content/uploads/
       - name: GitHub Action Deploy to WP Engine
         uses: wpengine/github-action-wpe-site-deploy@v3
@@ -27,24 +37,5 @@ jobs:
           #REMOTE_PATH: "wp-content/"
           PHP_LINT: TRUE
           CACHE_CLEAR: TRUE
-          - name: Copy images to deployment directory
-          run: |
-            wp_content_path=$(sudo find / -type d -name "wp-content" -print -quit)
-            if [ -z "$wp_content_path" ]; then
-            echo "wp-content directory not found"
-            exit 1
-            fi
-            echo "path $wp_content_path"
-            pwd 
-            echo "contents inside wp-content git before"
-            ls -l ./wp-content/uploads/2024/03/
-            if sudo rsync -av ./wp-content/uploads/2024/03/. ./wp-content/uploads/2024/03/; then
-              echo "Images copied successfully."
-            else
-              echo "Failed to copy images."
-            exit 1
-            fi
-            echo "contents inside wp-content git after"
-            ls -l $wp_content_path/uploads/2024/03/
 
 
