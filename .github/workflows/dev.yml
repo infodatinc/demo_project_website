@@ -18,14 +18,7 @@ jobs:
           node-version: 20.11.1
       - name: Copy images to deployment directory
         run: |
-          wp_content_path=$(sudo find /home/ -type d -name "wp-content" -print -quit)
-          if [ -z "$wp_content_path" ]; then
-          echo "wp-content directory not found"
-          exit 1
-          fi
-          sudo cp -r ./wp-content/uploads/* "$wp_content_path/"uploads/
-      # run: |
-      #   cp -r ./wp-content/uploads/*   /home/madhuri.koduru@infodatinc.com/public_html/wp-content/
+          cp -r ./wp-content/uploads/*   /home/runner/work/demo_project_website/demo_project_website/wp-content/uploads/
       - name: GitHub Action Deploy to WP Engine
         uses: wpengine/github-action-wpe-site-deploy@v3
         with:
