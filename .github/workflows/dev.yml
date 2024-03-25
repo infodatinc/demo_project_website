@@ -18,7 +18,7 @@ jobs:
           node-version: 20.11.1
       - name: Copy images to deployment directory
         run: |
-          sudo wp_content_path=$(sudo find / -type d -name "wp-content" -print -quit)
+          sudo wp_content_path=$(sudo find /home/ -type d -name "wp-content" -print -quit)
           if [ -z "$wp_content_path" ]; then
           echo "wp-content directory not found"
           exit 1
