@@ -20,17 +20,14 @@ jobs:
         run: |
           wp_content_path=$(sudo find /home/ -type d -name "wp-content" -print -quit)
           if [ -z "$wp_content_path" ]; then
-          echo "wp-content directory not found"
-          exit 1
+            echo "wp-content directory not found"
+            exit 1
           fi
-          echo "contents inside wp-content git before"
-          ls -l ./wp-content/uploads/2024/03/
           if sudo rsync -av ./wp-content/uploads/2024/03/. "$wp_content_path/uploads/2024/03/"; then
             echo "Images copied successfully."
           else
             echo "Failed to copy images."
             exit 1
-          
           echo "contents inside wp-content git after"
           ls -l $wp_content_path/uploads/2024/03/
           fi
