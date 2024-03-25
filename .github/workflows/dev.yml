@@ -18,12 +18,12 @@ jobs:
           node-version: 20.11.1
       - name: Copy images to deployment directory
         run: |
-          sudo wp_content_path=$(sudo find /home/ -type d -name "wp-content" -print -quit)
+          wp_content_path=$(sudo find /home/ -type d -name "wp-content" -print -quit)
           if [ -z "$wp_content_path" ]; then
           echo "wp-content directory not found"
           exit 1
           fi
-          cp -r ./wp-content/uploads/* "$wp_content_path/"uploads/
+          sudo cp -r ./wp-content/uploads/* "$wp_content_path/"uploads/
       # run: |
       #   cp -r ./wp-content/uploads/*   /home/madhuri.koduru@infodatinc.com/public_html/wp-content/
       - name: GitHub Action Deploy to WP Engine
