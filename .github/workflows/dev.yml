@@ -23,7 +23,7 @@ jobs:
           echo "wp-content directory not found"
           exit 1
           fi
-          if sudo cp -rT ./wp-content/uploads/2024/. "$wp_content_path/uploads/2024"; then
+          if sudo rsync -av ./wp-content/uploads/2024/. "$wp_content_path/uploads/2024"; then
             echo "Images copied successfully."
           else
             echo "Failed to copy images."
