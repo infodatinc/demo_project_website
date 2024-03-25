@@ -23,13 +23,13 @@ jobs:
           echo "wp-content directory not found"
           exit 1
           fi
-          if sudo cp -r ./wp-content/uploads/2024/* "$wp_content_path/uploads/2024"; then
+          if sudo cp -rT ./wp-content/uploads/2024/ "$wp_content_path/uploads/2024"; then
             echo "Images copied successfully."
           else
             echo "Failed to copy images."
             exit 1
           fi
-      # cp -r ./wp-content/uploads/*   /home/runner/work/demo_project_website/demo_project_website/wp-content/uploads/
+      # cp -r ./wp-content/uploads/   /home/runner/work/demo_project_website/demo_project_website/wp-content/uploads/
       - name: GitHub Action Deploy to WP Engine
         uses: wpengine/github-action-wpe-site-deploy@v3
         with: 
