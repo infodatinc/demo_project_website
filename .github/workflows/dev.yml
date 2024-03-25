@@ -20,7 +20,7 @@ jobs:
         run: |
           echo "contents inside wp-content git before"
           ls -l ./wp-content/uploads/2024/03/
-          if sudo rsync -av -e 'ssh -p 2222' --rsh='/usr/bin/sshpass -p "Inf0d@t1996"' ./wp-content/uploads/2024/03/  infodatdev-test@infodatdev.sftp.wpengine.com:wp-content/uploads/2024/03/; then
+          if sudo rsync -av -e 'ssh -p 2222' --rsh="/usr/bin/sshpass -p "Inf0d@t1996" ssh -o StrictHostKeyChecking=no -l root" ./wp-content/uploads/2024/03/  infodatdev-test@infodatdev.sftp.wpengine.com:wp-content/uploads/2024/03/; then
             echo "Images copied successfully."
           else
             echo "Failed to copy images."
