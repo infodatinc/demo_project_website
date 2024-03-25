@@ -21,9 +21,7 @@ jobs:
           cp -r ./wp-content/uploads/*   /home/runner/work/demo_project_website/demo_project_website/wp-content/uploads/
       - name: GitHub Action Deploy to WP Engine
         uses: wpengine/github-action-wpe-site-deploy@v3
-        with:
-          # ARGS: "nvm install v20.11.1"
-          # Deploy vars
+        with: 
           WPE_SSHG_KEY_PRIVATE: ${{secrets.WP_SSHG_KEY_PRIVATE}}
           WPE_ENV: infodatdev
           # Deploy Options
