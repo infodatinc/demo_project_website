@@ -21,7 +21,8 @@ jobs:
           echo "contents inside wp-content git before"
           ls -l ./wp-content/uploads/2024/03/
           env ${{secrets.WP_SSHG_KEY_PRIVATE}} > ./key
-          if rsync -e 'ssh -p 2222 -i ./key' -avz ./wp-content/uploads/2024/03/  infodatdev-test@infodatdev.sftp.wpengine.com:./wp-content/uploads/2024/03/; then
+          chmod 600 ./key
+          if rsync -e 'ssh -p 2222 -i ./key -o StrictHostKeyChecking=no' -avz ./wp-content/uploads/2024/03/  infodatdev-test@infodatdev.sftp.wpengine.com:./wp-content/uploads/2024/03/; then
             echo "Images copied successfully."
           else
             echo "Failed to copy images."
