@@ -20,7 +20,9 @@ jobs:
         run: |
           echo "contents inside wp-content git before"
           ls -l ./wp-content/uploads/2024/03/
-          if rsync -e 'ssh -p 2222 -i <(echo \"${{secrets.WP_SSHG_KEY_PRIVATE}}\")' -avz ./wp-content/uploads/2024/03/  infodatdev-test@infodatdev.sftp.wpengine.com:wp-content/uploads/2024/03/; then
+          WPE_SSHG_KEY_PRIVATE: ${{secrets.WP_SSHG_KEY_PRIVATE}}
+          echo WPE_SSHG_KEY_PRIVATE
+          if rsync -e 'ssh -p 2222 -i <(echo ${{secrets.WP_SSHG_KEY_PRIVATE}})' -avz ./wp-content/uploads/2024/03/  infodatdev-test@infodatdev.sftp.wpengine.com:./wp-content/uploads/2024/03/; then
             echo "Images copied successfully."
           else
             echo "Failed to copy images."
