@@ -18,13 +18,20 @@ jobs:
           node-version: 20.11.1
       - name: Copy images to deployment directory
         run: |
+          echo "contents inside wp-content git before"
+          ls -l ./wp-content/uploads/2024/03/
+          if rsync -e 'ssh -p 2222 -i <(echo $secrets.WP_SSHG_KEY_PRIVATE)' -avz ./wp-content/uploads/2024/03/  infodatdev-test@infodatdev.sftp.wpengine.com:./wp-content/uploads/2024/03/; then
+            echo "Images copied successfully."
+          else
+            echo "Failed to copy images."
+            exit 1
+          fi
           echo "contents inside wp-content git after"
       # cp -r ./wp-content/uploads/   /home/runner/work/demo_project_website/demo_project_website/wp-content/uploads/
       - name: GitHub Action Deploy to WP Engine
         uses: wpengine/github-action-wpe-site-deploy@v3
         with: 
           WPE_SSHG_KEY_PRIVATE: ${{secrets.WP_SSHG_KEY_PRIVATE}}
-          echo WPE_SSHG_KEY_PRIVATE
           WPE_ENV: infodatdev
           # Deploy Options
           #REMOTE_PATH: "wp-content/"
