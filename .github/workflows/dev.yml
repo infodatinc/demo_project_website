@@ -20,9 +20,8 @@ jobs:
         run: |
           echo "contents inside wp-content git before"
           ls -l ./wp-content/uploads/2024/03/
-          echo "Inf0d@t1996" > password.txt
-          chmod 600 password.txt
-          if sudo rsync -e 'ssh -p 2222 -o StrictHostKeyChecking=no' -avz --password-file=password.txt ./wp-content/uploads/2024/03/  infodatdev-test@infodatdev.sftp.wpengine.com:wp-content/uploads/2024/03/; then
+
+          if sudo rsync -e 'ssh -p 2222 -o StrictHostKeyChecking=no' -avz ./wp-content/uploads/2024/03/  infodatdev-test@infodatdev.sftp.wpengine.com:wp-content/uploads/2024/03/; then
             echo "Images copied successfully."
           else
             echo "Failed to copy images."
