@@ -20,7 +20,7 @@ jobs:
         run: |
           echo "contents inside wp-content git before"
           ls -l ./wp-content/uploads/2024/03/
-          if rsync  -avz -e 'ssh' ./wp-content/uploads/2024/03/  infodatdev@infodatdev.ssh.wpengine.net:./sites/infodatdev/wp-content/uploads/2024/03; then
+          if rsync  -avz -e 'ssh -i ~/wp-content/key -o IdentitiesOnly=yes infodatdev@infodatdev.ssh.wpengine.net' ./wp-content/uploads/2024/03/  infodatdev@infodatdev.ssh.wpengine.net:./sites/infodatdev/wp-content/uploads/2024/03; then
             echo "Images copied successfully."
           else
             echo "Failed to copy images."
